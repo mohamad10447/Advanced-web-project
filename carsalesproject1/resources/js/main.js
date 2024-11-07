@@ -1,12 +1,93 @@
-// NAVBAR TOGGLE
-const navToggle = document.querySelector('#navToggle');
-const nav = document.querySelector('#nav-links');
+let slideIndex = 1;
 
-navToggle.addEventListener('click', () => {
-  nav.classList.toggle('nav-open');
+function showSlides(n) {
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+
+  if (n > slides.length) { slideIndex = 1 }
+  if (n < 1) { slideIndex = slides.length }
+
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+
+  const cars = [
+    { "car_id": 1, "car_name": "Audi A5", "car_brand": "audi", "car_model": "a5", "car_price": 12000, "car_year": 2012, "car_type": "Limuzina", "car_fuel": "Dizel", "car_image": "images/audia5.png" },
+    { "car_id": 2, "car_name": "Audi A3", "car_brand": "audi", "car_model": "a3", "car_price": 8000, "car_year": 2010, "car_type": "Hecbek", "car_fuel": "Benzin", "car_image": "images/audia3.png" },
+    { "car_id": 3, "car_name": "Audi A4", "car_brand": "audi", "car_model": "a4", "car_price": 11000, "car_year": 2011, "car_type": "Limuzina", "car_fuel": "Dizel", "car_image": "images/audia4.png" },
+    { "car_id": 4, "car_name": "Audi A6", "car_brand": "audi", "car_model": "a6", "car_price": 14000, "car_year": 2014, "car_type": "Limuzina", "car_fuel": "Benzin", "car_image": "images/audia6.png" },
+    { "car_id": 5, "car_name": "BMW 125d", "car_brand": "bmw", "car_model": "s1", "car_price": 7000, "car_year": 2007, "car_type": "Hecbek", "car_fuel": "Benzin", "car_image": "images/bmw125.png" },
+    { "car_id": 6, "car_name": "BMW 325i", "car_brand": "bmw", "car_model": "s3", "car_price": 5000, "car_year": 2006, "car_type": "Limuzina", "car_fuel": "Benzin", "car_image": "images/bmw325.png" },
+    { "car_id": 7, "car_name": "BMW 520d", "car_brand": "bmw", "car_model": "s5", "car_price": 11000, "car_year": 2011, "car_type": "Limuzina", "car_fuel": "Dizel", "car_image": "images/bmw520.png" },
+    { "car_id": 8, "car_name": "BMW 730d", "car_brand": "bmw", "car_model": "s7", "car_price": 14000, "car_year": 2012, "car_type": "Limuzina", "car_fuel": "Dizel", "car_image": "images/bmw730.png" },
+    { "car_id": 9, "car_name": "Mercedes Benz A180", "car_brand": "mercedes", "car_model": "a180", "car_price": 12000, "car_year": 2007, "car_type": "Hecbek", "car_fuel": "Benzin", "car_image": "images/mercedesa180.png" },
+    { "car_id": 10, "car_name": "Mercedes Benz C220", "car_brand": "mercedes", "car_model": "c220", "car_price": 10000, "car_year": 2006, "car_type": "Limuzina", "car_fuel": "Benzin", "car_image": "images/mercedesc220.png" },
+    { "car_id": 11, "car_name": "Mercedes Benz E200", "car_brand": "mercedes", "car_model": "e200", "car_price": 12500, "car_year": 2011, "car_type": "Limuzina", "car_fuel": "Dizel", "car_image": "images/mercedese200.png" },
+    { "car_id": 12, "car_name": "Mercedes Benz E250", "car_brand": "mercedes", "car_model": "e250", "car_price": 14200, "car_year": 2012, "car_type": "Limuzina", "car_fuel": "Dizel", "car_image": "images/mercedese250.png" }
+  ];
+
+  function renderCars() {
+    const wrapper = document.getElementById('wrapper');
+    wrapper.innerHTML = '';
+
+    cars.forEach(car => {
+      const carElement = document.createElement('div');
+      carElement.classList.add('card');
+      carElement.innerHTML = `
+        <img src="${car.car_image}" alt="${car.car_name}" />
+        <h3>${car.car_name}</h3>
+        <p>Price: €${car.car_price}</p>
+        <p>Year: ${car.car_year}</p>
+        <p>Fuel: ${car.car_fuel}</p>
+        <p>Type: ${car.car_type}</p>
+      `;
+      wrapper.appendChild(carElement);
+    });
+  }
+
+  renderCars();
+  for (let i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+
+  slides[slideIndex - 1].style.display = "block";
+  dots[slideIndex - 1].className += " active";
+}
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+showSlides(slideIndex);
+
+document.addEventListener('DOMContentLoaded', function() {
+  const prevButton = document.querySelector('.prev');
+  const nextButton = document.querySelector('.next');
+
+  if (prevButton) {
+    prevButton.addEventListener('click', function() {
+      plusSlides(-1);
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener('click', function() {
+      plusSlides(1);
+    });
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', function() {
+      currentSlide(index + 1);
+    });
+  });
 });
 
-// POPUP LOGIN
 document.getElementById('button').addEventListener('click', function () {
   document.querySelector('.popup').style.display = 'flex';
 });
@@ -15,363 +96,79 @@ document.getElementById('close-icon').addEventListener('click', function () {
   document.querySelector('.popup').style.display = 'none';
 });
 
-const dugme = document.getElementById('dugme');
-if (dugme !== null) {
-  let lozinka = document.getElementById('lozinka');
-  let korime = document.getElementById('korIme');
+function filterCars() {
+  const brandSelect = document.getElementById('marka');
+  const typeSelect = document.getElementById('karoserija');
+  const fuelSelect = document.getElementById('gorivo');
+  const minPriceInput = document.getElementById('cena');
+  const yearSelect = document.getElementById('godiste');
 
-  dugme.addEventListener('click', (e) => {
-    e.preventDefault();
+  const selectedBrand = brandSelect.value;
+  const selectedType = typeSelect.value;
+  const selectedFuel = fuelSelect.value;
+  const minPrice = minPriceInput.value ? parseInt(minPriceInput.value) : 0;
+  const selectedYear = yearSelect.value;
 
-    if (korime.value == 'admin' && lozinka.value == 'admin') {
-      document.location.href = '/admin panel/admin.html';
-    } else {
-      alert('GRESKA!');
-    }
-  });
-}
+  let filteredCars = cars;
 
-// IMAGE SLIDER
-
-var slideIndex = 1;
-showSlides(slideIndex);
-
-// Next/previous controls
-function plusSlides(n) {
-  showSlides((slideIndex += n));
-}
-
-// Thumbnail image controls
-function currentSlide(n) {
-  showSlides((slideIndex = n));
-}
-
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName('mySlides');
-  if (slides.length == 0) {
-    return;
+  if (selectedBrand !== 'sve') {
+    filteredCars = filteredCars.filter(car => car.brand === selectedBrand);
+  }
+  if (selectedType !== 'svi') {
+    filteredCars = filteredCars.filter(car => car.type === selectedType);
+  }
+  if (selectedFuel !== 'sve') {
+    filteredCars = filteredCars.filter(car => car.fuel === selectedFuel);
+  }
+  if (minPrice) {
+    filteredCars = filteredCars.filter(car => car.price <= minPrice);
+  }
+  if (selectedYear) {
+    filteredCars = filteredCars.filter(car => car.year >= selectedYear);
   }
 
-  var dots = document.getElementsByClassName('dot');
-  if (n > slides.length) {
-    slideIndex = 1;
-  }
-  if (n < 1) {
-    slideIndex = slides.length;
-  }
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = 'none';
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(' active', '');
-  }
-  slides[slideIndex - 1].style.display = 'block';
-  dots[slideIndex - 1].className += ' active';
-}
+  const wrapper = document.getElementById('wrapper');
+  wrapper.innerHTML = '';
 
-// ADMIN CHART
-var auto = function (marka, godiste, gorivo, cena) {
-  this.marka = marka;
-  this.godiste = godiste;
-  this.gorivo = gorivo;
-  this.cena = cena;
-};
-
-var automobili = [
-  new auto('Audi', 2016, 'Dizel', 14000),
-  new auto('Audi', 2010, 'Benzin', 7000),
-  new auto('Audi', 2006, 'Dizel', 5000),
-  new auto('Audi', 2010, 'Dizel', 11000),
-  new auto('BMW', 2011, 'Dizel', 10000),
-  new auto('BMW', 2010, 'Dizel', 14300),
-  new auto('BMW', 2009, 'Benzin', 9000),
-  new auto('BMW', 2006, 'Dizel', 6000),
-  new auto('Mercedes Benz', 2014, 'Benzin', 10000),
-  new auto('Mercedes Benz', 2011, 'Dizel', 10500),
-  new auto('Mercedes Benz', 2010, 'Dizel', 12000),
-  new auto('Mercedes Benz', 2011, 'Benzin', 10000),
-];
-
-if (localStorage.getItem('automobili') == null) {
-  localStorage.setItem('automobili', JSON.stringify(automobili));
-}
-
-// PRETRAGA AUTOMOBILA (FILTER)
-
-var ocisti = () => {
-  var bmw = document.getElementsByClassName('bmw');
-  for (var i = 0; i < bmw.length; i++) {
-    bmw[i].style.display = 'none';
-  }
-  var audi = document.getElementsByClassName('audi');
-  for (var i = 0; i < audi.length; i++) {
-    audi[i].style.display = 'none';
-  }
-  var mercedes = document.getElementsByClassName('mercedes');
-  for (var i = 0; i < mercedes.length; i++) {
-    mercedes[i].style.display = 'none';
-  }
-};
-
-var pretrazi = document.getElementById('pretrazi');
-if (pretrazi !== null) {
-  pretrazi.addEventListener('click', (e) => {
-    e.preventDefault();
-    ocisti();
-    var izbor = document.getElementById('marka').value;
-    var elem = document.getElementsByClassName(izbor);
-    var model = document.getElementById('model').value;
-    var karoserija = document.getElementById('karoserija').value;
-    var gorivo = document.getElementById('gorivo').value;
-
-    var cena = document.getElementById('cena').value;
-    var godiste = document.getElementById('godiste').value;
-
-    let cars = carFilters(izbor, model, karoserija, gorivo, cena, godiste);
-
-    showCarsData(cars);
-  });
-}
-
-function removeOptions(selectElement) {
-  var i,
-    L = selectElement.options.length - 1;
-  for (i = L; i >= 0; i--) {
-    selectElement.remove(i);
+  if (filteredCars.length === 0) {
+    wrapper.innerHTML = '<p>No cars match your filters</p>';
+  } else {
+    filteredCars.forEach(car => {
+      const carElement = document.createElement('div');
+      carElement.classList.add('car');
+      carElement.innerHTML = `
+        <img src="${car.img}" alt="${car.model}" />
+        <h3>${car.model}</h3>
+        <p>Price: ${car.price} EUR</p>
+        <p>Year: ${car.year}</p>
+        <p>Fuel: ${car.fuel}</p>
+        <p>Type: ${car.type}</p>
+      `;
+      wrapper.appendChild(carElement);
+    });
   }
 }
 
-// MODELI ZA SVAKU MARKU
-var marka = document.getElementById('marka');
-if (marka != null) {
-  marka.addEventListener('change', (e) => {
-    var vrednost = e.target.value;
-    var model = document.getElementById('model');
-    removeOptions(model);
-    if (vrednost == 'bmw') {
-      var opt = document.createElement('option');
-      opt.value = 'svi';
-      opt.innerHTML = 'Svi modeli';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 's1';
-      opt.innerHTML = 'Serije 1';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 's3';
-      opt.innerHTML = 'Serije 3';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 's5';
-      opt.innerHTML = 'Serije 5';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 's7';
-      opt.innerHTML = 'Serije 7';
-      model.appendChild(opt);
-    }
-    if (vrednost == 'audi') {
-      var opt = document.createElement('option');
-      opt.value = 'svi';
-      opt.innerHTML = 'Svi modeli';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 'a3';
-      opt.innerHTML = 'A3';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 'a4';
-      opt.innerHTML = 'A4';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 'a5';
-      opt.innerHTML = 'A5';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 'a6';
-      opt.innerHTML = 'A6';
-      model.appendChild(opt);
-    }
-    if (vrednost == 'mercedes') {
-      var opt = document.createElement('option');
-      opt.value = 'svi';
-      opt.innerHTML = 'Svi modeli';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 'a180';
-      opt.innerHTML = 'A 180';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 'e250';
-      opt.innerHTML = 'E 250';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 'c220';
-      opt.innerHTML = 'C 220';
-      model.appendChild(opt);
-      var opt = document.createElement('option');
-      opt.value = 'e200';
-      opt.innerHTML = 'E 200';
-      model.appendChild(opt);
-    }
-  });
+const filterBtn = document.getElementById('pretrazi');
+if (filterBtn) {
+    filterBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        filterCars();
+    });
+} else {
+    console.error('Filter button not found!');
 }
 
-// DUGME kola
-
-let page_path = window.location.pathname;
-let page_query = window.location.href;
-
-page_query = page_query.split('?');
-
-if (page_query.length > 1) {
-  page_query = page_query[1].split('=');
-
-  if (page_query[0] === 'car') {
-    let car_id = page_query[1];
-
-    let cars_data = getAllCars();
-
-    for (const key in cars_data) {
-      if (car_id == cars_data[key].car_id) {
-        let carHtml =
-          `<div class="cars-background">
-        <div class="image-cars">
-          <h2><strong>` +
-          cars_data[key].car_name +
-          `</strong> ` +
-          cars_data[key].car_year +
-          `. Godiste</h2>
-          <img src="` +
-          cars_data[key].car_image +
-          `" />
-        </div>
-        <div class="info-cars">
-          <h2>Opste Informacije</h2>
-          <p>Marka vozila: ` +
-          cars_data[key].car_brand +
-          `</p>
-          <p>Model vozila: ` +
-          cars_data[key].car_model +
-          `</p>
-          <p>Godiste vozila: ` +
-          cars_data[key].car_year +
-          `.</p>
-          <p>Karoserija: ` +
-          cars_data[key].car_type +
-          `</p>
-          <p>Gorivo: ` +
-          cars_data[key].car_fuel +
-          `</p>
-          <p>Strana volana: Leva</p>
-          <p>Registrovan do: Nije registrovan</p>
-          <p>Ostecenje: Nije ostecen</p>
-          <h2>Cena: ` +
-          cars_data[key].car_price +
-          `&euro;</h2>
-        </div>
-      </div>`;
-
-        document.getElementsByTagName('main')[0].innerHTML = carHtml;
-
-        break;
-      }
-    }
-  }
-}
-if (document.getElementById('wrapper') !== null) {
-  showCarsData(getAllCars());
-}
-
-function getAllCars() {
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open('GET', 'cars.json', false); // false for synchronous request
-  xmlHttp.send(null);
-  return JSON.parse(xmlHttp.responseText);
-}
-
-function showCarsData(cars_data) {
-  var carsHtml = '';
-  for (const element in cars_data) {
-    console.log(cars_data[element]);
-    carsHtml +=
-      `<div class="card">
-  <img src="` +
-      cars_data[element].car_image +
-      `" alt="Avatar" style="width:100%">
-  <div class="car-card">
-    <h4><b>` +
-      cars_data[element].car_name +
-      `</b></h4>
-    <p>` +
-      cars_data[element].car_year +
-      `. Godiste</p>
-    <p>` +
-      cars_data[element].car_fuel +
-      `</p>
-    <p>` +
-      cars_data[element].car_type +
-      `</p>
-    <p><strong>` +
-      cars_data[element].car_price +
-      `&euro;</strong></p>
-    <a href='cars.html?car=` +
-      cars_data[element].car_id +
-      `'><button type="button" class="car-button">Detaljnije...</button></a>
-  </div>
-</div>`;
-  }
-  document.getElementById('wrapper').innerHTML = carsHtml;
-}
-
-function carFilters(izbor, model, karoserija, gorivo, cena, godiste) {
-  let car_filters_data = [];
-  let cars_data = getAllCars();
-
-  for (const key in cars_data) {
-    let filter_status = true;
-
-    if (izbor !== 'sve') {
-      if (izbor !== cars_data[key].car_brand) {
-        filter_status = false;
-      }
-    }
-
-    if (model !== 'svi') {
-      if (model !== cars_data[key].car_model) {
-        filter_status = false;
-      }
-    }
-
-    if (karoserija !== 'Karoserija') {
-      if (karoserija !== cars_data[key].car_type.toLowerCase()) {
-        filter_status = false;
-      }
-    }
-
-    if (gorivo !== 'Gorivo') {
-      if (gorivo !== cars_data[key].car_fuel.toLowerCase()) {
-        filter_status = false;
-      }
-    }
-
-    if (cena !== '') {
-      if (cena < cars_data[key].car_price) {
-        filter_status = false;
-      }
-    }
-
-    if (godiste !== 'Godiste do') {
-      if (godiste < cars_data[key].car_year) {
-        filter_status = false;
-      }
-    }
-
-    if (filter_status) {
-      car_filters_data.push(cars_data[key]);
-    }
-  }
-
-  return car_filters_data;
+const resetBtn = document.getElementById('reset-btn');
+if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+        document.getElementById('marka').value = 'sve';
+        document.getElementById('godiste').value = '';
+        document.getElementById('karoserija').value = 'hecbek';
+        document.getElementById('gorivo').value = '';
+        document.getElementById('cena').value = '';
+        filterCars();
+    });
+} else {
+    console.error('Reset button not found!');
 }

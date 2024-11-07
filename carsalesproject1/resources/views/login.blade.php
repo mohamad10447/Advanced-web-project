@@ -1,91 +1,118 @@
-@extends('layout')
+@extends('welcome')
 
-@section('title', 'Login') <!-- Custom title for the page -->
+@section('login')
+<style>
+    <style>
+    /* Basic styling for the login page */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f7fc;
+        margin: 0;
+        padding: 0;
+    }
 
-@section('content')
-    <div class="slideshow-container">
-        <!-- Full-width images with number and caption text -->
-        <div class="mySlides fade">
-            <img src="{{ asset('images/slika1.jpg') }}" style="width: 100%; height: auto" />
-            <div class="text">We offer car sales services</div>
-        </div>
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
 
-        <div class="mySlides fade">
-            <img src="{{ asset('images/slika2.jpg') }}" style="width: 100%; height: auto" />
-            <div class="text">You can register your car with us</div>
-        </div>
+    .login-form {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+    }
 
-        <div class="mySlides fade">
-            <img src="{{ asset('images/slika3.jpg') }}" style="width: 100%" />
-            <div class="text">Most affordable car sales</div>
-        </div>
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-        <!-- Next and previous buttons -->
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
-    </div>
-    <br />
+    .form-group {
+        margin-bottom: 15px;
+    }
 
-    <!-- The dots/circles -->
-    <div class="slideshow-container__dots">
-        <span class="dot" onclick="currentSlide(1)"></span>
-        <span class="dot" onclick="currentSlide(2)"></span>
-        <span class="dot" onclick="currentSlide(3)"></span>
-    </div>
+    .form-group label {
+        display: block;
+        font-weight: bold;
+    }
 
-    <section>
-        <form>
-            <div class="main-container">
-                <div class="search-container">
-                    <select class="option-select" id="brand">
-                        <option value="all">All Brands</option>
-                        <option value="bmw">BMW</option>
-                        <option value="mercedes">Mercedes Benz</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                    <select class="option-select" id="year">
-                        <option disabled selected>Year up to</option>
-                        <option value="2021">2021</option>
-                        <option value="2020">2020</option>
-                        <option value="2019">2019</option>
-                        <option value="2018">2018</option>
-                        <option value="2017">2017</option>
-                        <option value="2016">2016</option>
-                        <option value="2015">2015</option>
-                        <option value="2014">2014</option>
-                        <option value="2013">2013</option>
-                        <option value="2012">2012</option>
-                        <option value="2011">2011</option>
-                        <option value="2010">2010</option>
-                        <option value="2009">2009</option>
-                        <option value="2008">2008</option>
-                        <option value="2007">2007</option>
-                        <option value="2006">2006</option>
-                    </select>
-                </div>
-                <div class="search-container">
-                    <select class="option-select" id="model">
-                        <option value="all" disabled selected>All Models</option>
-                    </select>
-                    <select class="option-select" id="body">
-                        <option selected>Body Type</option>
-                        <option value="hatchback">Hatchback</option>
-                        <option value="sedan">Sedan</option>
-                    </select>
-                    <button class="option-select button" type="reset">Reset Search</button>
-                </div>
-                <div class="search-container">
-                    <input class="option-select" type="number" placeholder="Price up to" min="2000" max="15000" id="price">
-                    <select class="option-select" id="fuel">
-                        <option disabled selected>Fuel Type</option>
-                        <option value="diesel">Diesel</option>
-                        <option value="gasoline">Gasoline</option>
-                    </select>
-                    <button class="option-select button" type="submit" id="search">Search</button>
-                </div>
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .form-check {
+        margin-bottom: 15px;
+    }
+
+    .form-check input {
+        margin-right: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .extra-links {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .extra-links a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .extra-links a:hover {
+        text-decoration: underline;
+    }
+</style>
+</style>
+<div class="login-container">
+    <div class="login-form">
+        <h2>Login</h2>
+        <form method="POST" action="">
+            @csrf 
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control" required autofocus>
             </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+
+           
+
+            <button type="submit" class="btn btn-primary">Login</button>
+
         </form>
 
-        <div class="wrapper-cars" id="wrapper"></div>
-    </section>
+        <div class="extra-links">
+            <a href="">Forgot Your Password?</a>
+            <p>Don't have an account? <a href="">Sign up</a></p>
+        </div>
+    </div>
+</div>
 @endsection
+

@@ -1,36 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Dealership SM</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Sales</title>
+    <script type="module" src="http://localhost:5173/resources/js/main.js" defer></script>
     <script src="https://kit.fontawesome.com/afd19b9f4f.js" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
     <style>
-        /* Insert your CSS content here */
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Quicksand', sans-serif;
-        
-        }
-        body {
-          min-height: 100vh;
-          background-image: url(../images/pozadina1.jpg);
-          background-repeat: no-repeat;
-          background-size: cover;
-          background-attachment: fixed;
-        }
-        main {
-          position: relative;
-          top: 60px;
-        }
-        .container {
+      @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background-image: url(../images/pozadina1.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+main {
+  position: relative;
+  top: 60px;
+}
+
+/* NAVBAR */
+
+.container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px 40px;
@@ -821,16 +828,14 @@ footer {
     border-bottom: none;
   }
 }
-}
+
     </style>
-</head>
-  <body>
     <header>
       <div class="navbar">
         <div class="container flex-nav">
           <div class="nav-header">
-            <a href="index.html">
-              <h2>AutoDealership<span>SM</span></h2>
+            <a href="{{url('home')}}">
+              <h2>Car<span>Sales</span></h2>
             </a>
             <button class="nav-toggle" id="navToggle">
               <i class="fa fa-bars"></i>
@@ -838,164 +843,31 @@ footer {
           </div>
           <nav class="nav-links" id="nav-links">
             <ul>
-              <li class="nav-link"><a href="/">Home</a></li>
-              <li class="nav-link"><a href="/aboutus">About Us</a></li>
-              <li class="nav-link"><a href="">Warranty</a></li>
-              <li class="nav-link"><a href="/contact">Contact</a></li>
-              <li class="nav-link"><a href="#" id="button">Log In</a></li>
+              <li class="nav-link"><a href="{{url('home')}}">Home</a></li>
+              <li class="nav-link"><a href="{{url('aboutus')}}">About Us</a></li>
+              <li class="nav-link"><a href="{{url('warranty')}}">Warranty</a></li>
+              <li class="nav-link"><a href="{{url('contact')}}">Contact</a></li>
+              <li class="nav-link"><a href="{{ route('login') }}">Login</a></li>
             </ul>
           </nav>
         </div>
       </div>
 
       <form class="popup">
-        <div class="popup-content">
-          <i class="fa fa-user fa-3x" id="user-icon" aria-hidden="true"></i>
-          <i class="fa fa-times" id="close-icon" aria-hidden="true"></i>
-          <input type="text" placeholder="Username" id="username" />
-          <input type="password" placeholder="Password" id="password" />
-          <p>
-            Don’t have an account?
-            <a href="registracija.html" class="btn-signup">Register</a>
-          </p>
-          <button class="btn-login" id="login-button" type="submit">Log In</button>
-        </div>
+        @yield('loginpage')
+      
       </form>
     </header>
     <main>
-      <div class="slideshow-container">
-        <!-- Full-width images with number and caption text -->
-        <div class="mySlides fade">
-          <img src="images/slika1.jpg" style="width: 100%; height: auto" />
-          <div class="text">We offer car sales services</div>
-        </div>
-
-        <div class="mySlides fade">
-          <img src="images/slika2.jpg" style="width: 100%; height: auto" />
-          <div class="text">You can register your car with us</div>
-        </div>
-
-        <div class="mySlides fade">
-          <img src="images/slika3.jpg" style="width: 100%" />
-          <div class="text">Most affordable car sales</div>
-        </div>
-
-        <!-- Next and previous buttons -->
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
-      </div>
-      <br />
-
-      <!-- The dots/circles -->
-      <div class="slideshow-container__dots">
-        <span class="dot" onclick="currentSlide(1)"></span>
-        <span class="dot" onclick="currentSlide(2)"></span>
-        <span class="dot" onclick="currentSlide(3)"></span>
-      </div>
-
-      <section>
-        <form>
-          <div class="main-container">
-            <div class="search-container">
-              <select class="option-select" id="brand">
-                <option value="all">All Brands</option>
-                <option value="bmw">BMW</option>
-                <option value="mercedes">Mercedes Benz</option>
-                <option value="audi">Audi</option>
-              </select>
-              <select class="option-select" id="year">
-                <option disabled selected>Year up to</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
-                <option value="2018">2018</option>
-                <option value="2017">2017</option>
-                <option value="2016">2016</option>
-                <option value="2015">2015</option>
-                <option value="2014">2014</option>
-                <option value="2013">2013</option>
-                <option value="2012">2012</option>
-                <option value="2011">2011</option>
-                <option value="2010">2010</option>
-                <option value="2009">2009</option>
-                <option value="2008">2008</option>
-                <option value="2007">2007</option>
-                <option value="2006">2006</option>
-              </select>
-            </div>
-            <div class="search-container">
-              <select class="option-select" id="model">
-                <option value="all" disabled selected>All Models</option>
-              </select>
-              <select class="option-select" id="body">
-                <option selected>Body Type</option>
-                <option value="hatchback">Hatchback</option>
-                <option value="sedan">Sedan</option>
-              </select>
-              <button class="option-select button" type="reset">Reset Search</button>
-            </div>
-            <div class="search-container">
-                <input class="option-select" type="number" placeholder="Price up to" min="2000" max="15000" id="price">
-              <select class="option-select" id="fuel">
-                <option disabled selected>Fuel Type</option>
-                <option value="diesel">Diesel</option>
-                <option value="gasoline">Gasoline</option>
-              </select>
-              <button class="option-select button" type="submit" id="search">Search</button>
-              </select>
-            </div>
-          </div>
-        </form>
-
-        <div class="wrapper-cars" id="wrapper"></div>
-      </section>
-      
+      @yield('homepage')
+      @yield('aboutus')
+      @yield('contact')
+      @yield('Warranty')
+      @yield('login')
     </main>
 
     <footer class="footer-distributed">
-      <div class="footer-left">
-        <h3>AutoDealership<span>SM</span></h3>
-
-        <p class="footer-links">
-          <a href="index.html">Home</a> |
-          <a href="./onama/onama.html">About Us</a> |
-          <a href="./garancija/garancija.html">Warranty</a> |
-          <a href="./kontakt/kontakt.html">Contact</a>
-        </p>
-
-        <p class="footer-company-name">
-          Copyright © 2021 <strong>AutoDealership SM</strong> All rights reserved
-        </p>
-      </div>
-
-      <div class="footer-center">
-        <div>
-          <i class="fa fa-map-marker"></i>
-          <p><span>Belgrade</span> Serbia</p>
-        </div>
-
-        <div>
-          <i class="fa fa-phone"></i>
-          <p>+96171188264</p>
-        </div>
-        <div>
-          <i class="fa fa-envelope"></i>
-          <p><a href="#">autokucasm@gmail.com</a></p>
-        </div>
-      </div>
-      <div class="footer-right">
-        <p class="footer-company-about">
-          <span>About Us</span>
-          <strong>AutoDealership SM</strong> has built and maintained a reputation as a reliable partner during its decade-long experience in selling used vehicles in Serbia, guided by our core mission to be the TRUSTED CHOICE of our clients.
-        </p>
-        <div class="footer-icons">
-          <a href="#"><i class="fa fa-facebook"></i></a>
-          <a href="#"><i class="fa fa-instagram"></i></a>
-          <a href="#"><i class="fa fa-youtube"></i></a>
-        </div>
-      </div>
-     </footer>
-      <script src="{{ asset('js/main1.js') }}"></script>   
-      <script src="{{ asset('js/cars.js') }}"></script>   
+   @yield('footer')
+    </footer>
   </body>
 </html>
