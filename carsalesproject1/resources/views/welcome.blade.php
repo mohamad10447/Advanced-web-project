@@ -874,13 +874,23 @@
         </div>
         <nav class="nav-links" id="nav-links">
           <ul>
-            <li class="nav-link"><a href="{{url('home')}}">Home</a></li>
-            <li class="nav-link"><a href="{{url('aboutus')}}">About Us</a></li>
-            <li class="nav-link"><a href="{{url('warranty')}}">Warranty</a></li>
-            <li class="nav-link"><a href="{{url('contact')}}">Contact</a></li>
-            <li class="nav-link"><a href="{{route('shop')}}">Shop</a></li>
+            <li class="nav-link"><a href="{{ url('home') }}">Home</a></li>
+            <li class="nav-link"><a href="{{ url('aboutus') }}">About Us</a></li>
+            <li class="nav-link"><a href="{{ url('warranty') }}">Warranty</a></li>
+            <li class="nav-link"><a href="{{ url('contact') }}">Contact</a></li>
+            <li class="nav-link"><a href="{{ route('shop') }}">Shop</a></li>
+
+            @if(auth()->check())
+            <li class="nav-link">
+              <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                @csrf
+                <button type="submit" style="background:none; border:none; color:blue; cursor:pointer;">Logout</button>
+              </form>
+            </li>
+            @else
             <li class="nav-link"><a href="{{ route('login') }}">Login</a></li>
             <li class="nav-link"><a href="{{ route('signup') }}">Sign Up</a></li>
+            @endif
           </ul>
         </nav>
       </div>
