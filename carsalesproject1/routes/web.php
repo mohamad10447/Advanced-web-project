@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController; // Import the AuthController
 use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
-    return view('home');
+    return view('Home');
 });
 
 Route::get('/login', function () {
