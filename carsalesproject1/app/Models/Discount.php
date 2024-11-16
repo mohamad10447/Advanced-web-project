@@ -20,6 +20,10 @@ class Discount extends Model
         'ending_time',
         'car_id'
     ];
+    protected $casts = [
+        'starting_time' => 'datetime',
+        'ending_time' => 'datetime',
+    ];
 
     // Relationship to Car
     public function car()

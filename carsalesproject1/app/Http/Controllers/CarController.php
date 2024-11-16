@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Car;
@@ -6,12 +7,69 @@ use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $totalCars = Car::count();
-        $cars = Car::all();
+        // Retrieve search parameters
+        $type = $request->input('type');
+        $brand = $request->input('brand');
+        $model = $request->input('model');
+        $year = $request->input('year');
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+        $mileage = $request->input('mileage');
+        $fuelType = $request->input('fuel_type');
+        $transmission = $request->input('transmission');
+
+        // Start the query to get all cars
+        $query = Car::query();
+
+        // Apply filters based on the search parameters
+        if ($type) {
+            $query->where('type', 'like', '%' . $type . '%'); // Use 'like' for partial matching
+        }
+
+        if ($brand) {
+            $query->where('brand', 'like', '%' . $brand . '%'); // Use 'like' for partial matching
+        }
+
+        if ($model) {
+            $query->where('model', 'like', '%' . $model . '%'); // Use 'like' for partial matching
+        }
+
+        if ($year) {
+            $query->where('year', $year); // Exact match for year
+        }
+
+        if ($minPrice) {
+            $query->where('price', '>=', $minPrice); // Minimum price filter
+        }
+
+        if ($maxPrice) {
+            $query->where('price', '<=', $maxPrice); // Maximum price filter
+        }
+
+        if ($mileage) {
+            $query->where('mileage', '<=', $mileage); // Maximum mileage filter
+        }
+
+        if ($fuelType) {
+            $query->where('fuel_type', $fuelType); // Exact match for fuel type
+        }
+
+        if ($transmission) {
+            $query->where('transmission', $transmission); // Exact match for transmission
+        }
+
+        // Get the filtered results
+        $cars = $query->get();
+
+        // Count total cars for display
+        $totalCars = $cars->count();
+
+        // Return the view with cars and total cars
         return view('admin.cars', compact('cars', 'totalCars'));
     }
+
 
     public function indexShop()
     {
@@ -132,7 +190,7 @@ class CarController extends Controller
         $car->update($request->all());
         return redirect()->route('admin.cars')->with('success', 'Car updated successfully.');
     }
-    
+
 
     public function destroy($id)
     {
@@ -171,6 +229,4 @@ class CarController extends Controller
         // Redirect to a confirmation page or success page
         return redirect()->route('purchase.success');
     }
-
 }
-
