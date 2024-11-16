@@ -30,62 +30,6 @@
   <span class="dot" onclick="currentSlide(2)"></span>
   <span class="dot" onclick="currentSlide(3)"></span>
 </div>
-
-<section>
-  <form>
-    <div class="main-container">
-      <div class="search-container">
-        <select class="option-select" id="marka">
-          <option value="sve">All Brands</option>
-          <option value="bmw">BMW</option>
-          <option value="mercedes">Mercedes Benz</option>
-          <option value="audi">Audi</option>
-        </select>
-        <select class="option-select" id="godiste">
-          <option disabled selected>Year Until</option>
-          <option value="2021">2021</option>
-          <option value="2020">2020</option>
-          <option value="2019">2019</option>
-          <option value="2018">2018</option>
-          <option value="2017">2017</option>
-          <option value="2016">2016</option>
-          <option value="2015">2015</option>
-          <option value="2014">2014</option>
-          <option value="2013">2013</option>
-          <option value="2012">2012</option>
-          <option value="2011">2011</option>
-          <option value="2010">2010</option>
-          <option value="2009">2009</option>
-          <option value="2008">2008</option>
-          <option value="2007">2007</option>
-          <option value="2006">2006</option>
-        </select>
-      </div>
-      <div class="search-container">
-        <select class="option-select" id="model">
-          <option value="svi" disabled selected>All Models</option>
-        </select>
-        <select class="option-select" id="karoserija">
-          <option selected>Body Type</option>
-          <option value="hecbek">Hatchback</option>
-          <option value="limuzina">Sedan</option>
-        </select>
-        <button class="option-select button" type="reset" id="reset-btn">Reset Search</button>
-      </div>
-      <div class="search-container">
-        <input class="option-select" type="number" placeholder="Price Up To" min="2000" max="15000" id="cena">
-        <select class="option-select" id="gorivo">
-          <option disabled selected>Fuel</option>
-          <option value="dizel">Diesel</option>
-          <option value="benzin">Gasoline</option>
-        </select>
-        <button class="option-select button" type="submit" id="pretrazi">Search</button>
-      </div>
-    </div>
-  </form>
-
-  <div class="wrapper-cars" id="wrapper"></div>
-</section>
 @endsection
 
 @section('footer')

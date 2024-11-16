@@ -6,7 +6,7 @@ use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
     return view('Home');
-});
+})->name('Home');
 
 Route::get('/login', function () {
     return view('Login');
@@ -15,6 +15,9 @@ Route::get('/login', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
+Route::get('/purchase', function () {
+    return view('purchase');
+})->name('purchase');
 
 Route::get('/aboutus', function () {
     return view('aboutus');
@@ -35,11 +38,22 @@ Route::get('/warranty', function () {
 // Sign-Up Routes (Only accessible to guests)
 Route::get('/signup', [AuthController::class, 'signupPage'])->middleware('guest')->name('signup'); // Show Sign-Up form
 Route::post('/signup', [AuthController::class, 'signup'])->middleware('guest'); // Handle Sign-Up form submission
+// Remove this line:
+Route::get('/checkout', [CarController::class, 'showCheckoutPage'])->name('checkoutPage');
 
+// Keep the route pointing to the CarController's checkout method
+Route::post('/checkout', [CarController::class, 'checkout'])->name('checkout');
 
+// Route for the payment page (you can change this to your actual checkout route)
+Route::get('/payment', function() {
+    $selectedCars = session('selectedCars');
+    $totalPrice = session('totalPrice');
+    return view('carselected', compact('selectedCars', 'totalPrice'));
+})->name('paymentPage');
 
+// In your routes/web.php
+Route::post('/remove-car-from-session', [CarController::class, 'removeCarFromSession'])->name('removeCarFromSession');
 Route::get('/shop', [CarController::class, 'indexShop'])->name('shop');
-
 Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -59,8 +73,23 @@ Route::put('/admin/update-user/{id}', [AuthController::class, 'updateUser'])->na
 
 // Route to delete a user
 Route::delete('/admin/delete-user/{id}', [AuthController::class, 'deleteUser'])->name('admin.deleteUser');
+Route::middleware(['auth'])->get('/shop', [CarController::class, 'indexShop'])->name('shop');
 
+// Route for the login page (authenticated users are redirected to the shop)
+Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+// Sign-Up Routes (Only accessible to guests)
+Route::get('/signup', [AuthController::class, 'signupPage'])->middleware('guest')->name('signup');
+Route::post('/signup', [AuthController::class, 'signup'])->middleware('guest');
+
+// If user is unauthenticated, they will be redirected to login page with a message
+Route::get('/login', function () {
+    return view('Login')->with('alert', 'Please log in or sign up to access the shop.');
+})->name('login');
 // Admin Cars:
+// This will protect the /shop route
+Route::middleware(['auth'])->get('/shop', [CarController::class, 'indexShop'])->name('shop');
 
 Route::get('/admin/cars', [CarController::class, 'index'])->name('admin.cars');
 Route::post('/admin/cars', [CarController::class, 'store'])->name('admin.addCar');
