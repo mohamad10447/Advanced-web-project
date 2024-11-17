@@ -4,6 +4,8 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\AuthController; // Import the AuthController
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\EmployeeController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('Home');
@@ -52,9 +54,13 @@ Route::get('/payment', function () {
     return view('carselected', compact('selectedCars', 'totalPrice'));
 })->name('paymentPage');
 
-// In your routes/web.php
+
 Route::post('/remove-car-from-session', [CarController::class, 'removeCarFromSession'])->name('removeCarFromSession');
-Route::get('/shop', [CarController::class, 'indexShop'])->name('shop');
+//Route::get('/shop', [CarController::class, 'indexShop'])->name('shop');
+Route::get('/shop', function () {
+    $availablecar = App\Models\Car::all(); // Example: Fetch cars from the database
+    return view('shop', compact('availablecar'));
+});
 Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -91,13 +97,19 @@ Route::get('/login', function () {
 // Admin Cars:
 // This will protect the /shop route
 Route::middleware(['auth'])->get('/shop', [CarController::class, 'indexShop'])->name('shop');
-
 Route::get('/admin/cars', [CarController::class, 'index'])->name('admin.cars');
 Route::post('/admin/cars', [CarController::class, 'store'])->name('admin.addCar');
 Route::get('/admin/cars/{id}/edit', [CarController::class, 'edit'])->name('admin.editCar');
 Route::put('/admin/cars/{id}', [CarController::class, 'update'])->name('admin.updateCar');
 Route::delete('/admin/cars/{id}', [CarController::class, 'destroy'])->name('admin.deleteCar');
 
-
 // Discount Routes
 Route::resource('discounts', DiscountController::class);
+
+// employee Routes
+Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
+
+// User actions (if required for the employee to manage them)
+Route::get('/employee/edit-user/{id}', [EmployeeController::class, 'editUser'])->name('employee.editUser');
+Route::delete('/employee/delete-user/{id}', [EmployeeController::class, 'deleteUser'])->name('employee.deleteUser');
+Route::get('/employee/shop', [ShopController::class, 'shopDashboard'])->name('employee.shop');

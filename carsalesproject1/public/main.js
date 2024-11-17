@@ -163,3 +163,17 @@ if (resetBtn) {
 } else {
     console.error('Reset button not found!');
 }
+document.addEventListener('DOMContentLoaded', function () {
+  function showSlides() {
+      let slides = document.querySelectorAll('.slide');
+      slides.forEach((slide, index) => {
+          if (slide) {
+              slide.style.display = index === 0 ? 'block' : 'none'; // Show the first slide
+          } else {
+              console.warn("Slide not found at index:", index);
+          }
+      });
+  }
+
+  showSlides(); // Initialize the slideshow
+});

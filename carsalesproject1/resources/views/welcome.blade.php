@@ -900,11 +900,56 @@
     @yield('contact')
     @yield('Warranty')
     @yield('login')
+    @yield('shop')
+    @yield('signup')
   </main>
 
   <footer class="footer-distributed">
-    @yield('footer')
-  </footer>
-</body>
+  <div class="footer-left">
+  <h3>Car<span>sales</span></h3>
 
+  <p class="footer-links">
+    <a href="index.html">Home</a>
+    |
+    <a href="./onama/onama.html">About Us</a>
+    |
+    <a href="./garancija/garancija.html">Warranty</a>
+    |
+    <a href="./kontakt/kontakt.html">Contact</a>
+  </p>
+
+  <p class="footer-company-name">
+    Copyright © 2021 <strong>Carsales</strong> All rights reserved
+  </p>
+</div>
+
+<div class="footer-center">
+  <div>
+    <i class="fa fa-map-marker"></i>
+    <p><span>Lebanon</span> beirut</p>
+  </div>
+
+  <div>
+    <i class="fa fa-phone"></i>
+    <p>+9610000000</p>
+  </div>
+  <div>
+    <i class="fa fa-envelope"></i>
+    <p><a href="#">Carsales@gmail.com</a></p>
+  </div>
+</div>
+<div class="footer-right">
+  <p class="footer-company-about">
+    <span>About Us</span>
+    <strong>Carsales</strong> is a trusted partner in the used car sales industry in Serbia, with over a decade of experience, committed to being a SAFE CHOICE for our clients.
+  </p>
+  <div class="footer-icons">
+    <a href="#"><i class="fa fa-facebook"></i></a>
+    <a href="#"><i class="fa fa-instagram"></i></a>
+    <a href="#"><i class="fa fa-youtube"></i></a>
+  </div>
+</div>
+  </footer>
+
+</body>
 </html>
