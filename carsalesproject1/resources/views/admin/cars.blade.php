@@ -58,29 +58,18 @@
             border-color: #0056b3;
         }
 
-        .btn-warning {
-            color: #212529;
-            background-color: #ffc107;
-            border-color: #ffc107;
+        .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
         }
 
-        .btn-warning:hover {
-            color: #212529;
-            background-color: #e0a800;
-            border-color: #d39e00;
-        }
-
-        .btn-danger:hover {
-            background-color: #bd2130;
-            border-color: #b21f2d;
+        .btn-info:hover {
+            background-color: #138496;
+            border-color: #117a8b;
         }
 
         .form-control {
             border-radius: 0.375rem;
-        }
-
-        .mb-4 {
-            margin-bottom: 1.5rem !important;
         }
     </style>
 </head>
@@ -137,14 +126,6 @@
                         <th scope="col">Model</th>
                         <th scope="col">Type</th>
                         <th scope="col">Price</th>
-                        <th scope="col">Year</th>
-                        <th scope="col">Mileage</th>
-                        <th scope="col">Fuel Type</th>
-                        <th scope="col">Transmission</th>
-                        <th scope="col">SSN</th>
-                        <th scope="col">Purchase Date</th>
-                        <th scope="col">Purchased By</th>
-                        <th scope="col">Comment</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -156,15 +137,10 @@
                         <td>{{ $car->model }}</td>
                         <td>{{ $car->type }}</td>
                         <td>${{ number_format($car->price, 2) }}</td>
-                        <td>{{ $car->year }}</td>
-                        <td>{{ $car->mileage }} miles</td>
-                        <td>{{ $car->fuel_type }}</td>
-                        <td>{{ $car->transmission }}</td>
-                        <td>{{ $car->ssn }}</td>
-                        <td>{{ \Carbon\Carbon::parse($car->purchase_date_time)->format('Y-m-d H:i') }}</td>
-                        <td>{{ $car->purchased_by_user_id }}</td>
-                        <td>{{ $car->comment }}</td>
                         <td>
+                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewCarModal-{{ $car->id }}">
+                                View
+                            </button>
                             <a href="{{ route('admin.editCar', $car->id) }}" class="btn btn-warning btn-sm mb-1">Edit</a>
                             <form action="{{ route('admin.deleteCar', $car->id) }}" method="POST" class="d-inline">
                                 @csrf
@@ -173,6 +149,42 @@
                             </form>
                         </td>
                     </tr>
+
+                    <!-- Modal for viewing car details -->
+                    <div class="modal fade" id="viewCarModal-{{ $car->id }}" tabindex="-1" aria-labelledby="viewCarModalLabel-{{ $car->id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="viewCarModalLabel-{{ $car->id }}">Car Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row mb-3">
+                                        <div class="col-md-4">
+                                            <img src="{{ asset($car->image_path) }}" alt="{{ $car->brand }} {{ $car->model }}" class="img-thumbnail w-100">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p><strong>Brand:</strong> {{ $car->brand }}</p>
+                                            <p><strong>Model:</strong> {{ $car->model }}</p>
+                                            <p><strong>Type:</strong> {{ $car->type }}</p>
+                                            <p><strong>Price:</strong> ${{ number_format($car->price, 2) }}</p>
+                                            <p><strong>Year:</strong> {{ $car->year }}</p>
+                                            <p><strong>Mileage:</strong> {{ $car->mileage }} miles</p>
+                                            <p><strong>Fuel Type:</strong> {{ $car->fuel_type }}</p>
+                                            <p><strong>Transmission:</strong> {{ $car->transmission }}</p>
+                                            <p><strong>SSN:</strong> {{ $car->ssn }}</p>
+                                            <p><strong>Purchase Date:</strong> {{ \Carbon\Carbon::parse($car->purchase_date_time)->format('Y-m-d H:i') }}</p>
+                                            <p><strong>Purchased By:</strong> {{ $car->purchased_by_user_id }}</p>
+                                            <p><strong>Comment:</strong> {{ $car->comment }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endforeach
                 </tbody>
             </table>

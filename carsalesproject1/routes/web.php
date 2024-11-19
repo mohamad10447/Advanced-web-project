@@ -6,6 +6,8 @@ use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShopController;
+
 
 Route::get('/', function () {
     return view('Home');
@@ -113,3 +115,10 @@ Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->nam
 Route::get('/employee/edit-user/{id}', [EmployeeController::class, 'editUser'])->name('employee.editUser');
 Route::delete('/employee/delete-user/{id}', [EmployeeController::class, 'deleteUser'])->name('employee.deleteUser');
 Route::get('/employee/shop', [ShopController::class, 'shopDashboard'])->name('employee.shop');
+
+// Users management 
+use App\Http\Controllers\AdminController;
+
+Route::get('/admin/users', [AdminController::class, 'registeredUsers'])->name('admin.registeredUsers');
+Route::get('/admin/users/register', [AdminController::class, 'showRegisterUserForm'])->name('admin.showRegisterUserForm');
+Route::post('/admin/users/register', [AdminController::class, 'registerUser'])->name('admin.registerUser');
