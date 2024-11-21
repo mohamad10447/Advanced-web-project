@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Car;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CarController extends Controller
 {
@@ -70,7 +72,6 @@ class CarController extends Controller
         return view('admin.cars', compact('cars', 'totalCars'));
     }
 
-
     public function indexShop()
     {
         $cars = Car::all();
@@ -124,38 +125,56 @@ class CarController extends Controller
             'redirectUrl' => route('checkoutPage')  // Redirect to the checkout page
         ]);
     }
-
-    public function removeCarFromSession(Request $request)
+    public function updatedb(Request $request)
     {
-        // Get the selected cars from the session
-        $selectedCars = session()->get('selectedCars', []);
-        $carId = $request->input('carId'); // The car ID to remove
+        try {
+            // Validate incoming data
+            $request->validate([
+                'userId' => 'required|exists:users,id', // Ensure the user ID exists in the 'users' table
+                'Carids' => 'required|array', // Carids should be an array of car IDs
+                'Carids.*' => 'exists:cars,id', // Ensure each car ID exists in the cars table
+                'feedback' => 'nullable|string',
+                'time' => 'required|date_format:Y-m-d\TH:i:s.u\Z', // Ensure the time is in the correct format
+            ]);
 
-        // Check if the car ID is valid and the session contains the selected cars
-        if (!$carId || empty($selectedCars)) {
-            return response()->json(['success' => false, 'message' => 'No car found or invalid ID']);
+            // Find the user
+            $user = User::findOrFail($request->userId);
+
+            // Get the selected cars
+            $carIds = $request->input('Carids'); // This should be an array of car IDs
+            $cars = Car::whereIn('id', $carIds)->get(); // Fetch all cars that match the selected IDs
+
+            // Log the received time input for debugging
+            \Log::info('Time Input:', ['time' => $request->input('time')]);
+
+            // Convert time to a proper format using Carbon (will be stored in 'Y-m-d H:i:s' format for MySQL)
+            $formattedTime = Carbon::parse($request->input('time'))->toDateTimeString(); // This ensures the time is in 'Y-m-d H:i:s' format
+
+            // Loop through each car and update the details
+            foreach ($cars as $car) {
+                $car->update([
+                    'purchased_by_user_id' => $user->id,
+                    'comment' => $request->input('feedback'),
+                    'comment_date_time' => $formattedTime,
+                    'purchase_date_time' => $formattedTime,
+                ]);
+            }
+
+            // Return success response
+            return response()->json([
+                'success' => true,
+                'message' => 'Car purchase information updated successfully.',
+                'redirectUrl' => route('purchase') // Redirect to the purchase page
+            ]);
+        } catch (\Exception $e) {
+            // Log the error for debugging and return failure response
+            \Log::error('Error in updating car purchase: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error occurred while processing payment: ' . $e->getMessage(),
+            ]);
         }
-
-        // Filter out the car with the matching ID
-        $updatedCars = $selectedCars->filter(function ($car) use ($carId) {
-            return $car->id != $carId;
-        });
-
-        // Update the session with the remaining cars
-        session()->put('selectedCars', $updatedCars);
-
-        // Recalculate the total price for the remaining cars
-        $totalPrice = $updatedCars->sum('price');
-        $cartCount = $updatedCars->count();
-
-        // Return success response with updated total price and cart count
-        return response()->json([
-            'success' => true,
-            'totalPrice' => number_format($totalPrice, 2),
-            'cartCount' => $cartCount
-        ]);
     }
-
     public function store(Request $request)
     {
         // Validate and save the car
@@ -191,17 +210,17 @@ class CarController extends Controller
         return redirect()->route('admin.cars')->with('success', 'Car updated successfully.');
     }
 
-
     public function destroy($id)
     {
         $car = Car::findOrFail($id);
         $car->delete();
         return redirect()->route('admin.cars')->with('success', 'Car deleted successfully.');
     }
+
     public function storePurchase($userId)
     {
         // Ensure the user is authenticated
-        $user = \App\Models\User::find($userId);
+        $user = User::find($userId);
         if (!$user) {
             return redirect()->route('login')->with('error', 'User not found');
         }

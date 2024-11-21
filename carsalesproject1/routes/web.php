@@ -12,7 +12,9 @@ use App\Http\Controllers\ShopController;
 Route::get('/', function () {
     return view('Home');
 })->name('Home');
-
+Route::get('/purchase', function () {
+    return view('purchase');
+})->name('purchase');
 Route::get('/login', function () {
     return view('Login');
 })->name('login');
@@ -20,9 +22,7 @@ Route::get('/login', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
-Route::get('/purchase', function () {
-    return view('purchase');
-})->name('purchase');
+
 
 Route::get('/aboutus', function () {
     return view('aboutus');
@@ -40,11 +40,15 @@ Route::get('/warranty', function () {
     return view('warranty');
 });
 
+Route::post('/removeCarFromSession', [CheckoutController::class, 'removeCarFromSession'])->name('removeCarFromSession');
+Route::post('/purchase', [CheckoutController::class, 'updatedb'])->name('purchase');
+
 // Sign-Up Routes (Only accessible to guests)
 Route::get('/signup', [AuthController::class, 'signupPage'])->middleware('guest')->name('signup'); // Show Sign-Up form
 Route::post('/signup', [AuthController::class, 'signup'])->middleware('guest'); // Handle Sign-Up form submission
 // Remove this line:
 Route::get('/checkout', [CarController::class, 'showCheckoutPage'])->name('checkoutPage');
+Route::post('/purchase', [CarController::class, 'updatedb'])->name('purchase');
 
 // Keep the route pointing to the CarController's checkout method
 Route::post('/checkout', [CarController::class, 'checkout'])->name('checkout');
@@ -63,7 +67,6 @@ Route::get('/shop', function () {
     $availablecar = App\Models\Car::all(); // Example: Fetch cars from the database
     return view('shop', compact('availablecar'));
 });
-Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
