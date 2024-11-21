@@ -50,6 +50,10 @@
                 </table>
             </div>
         </div>
+        <!-- Back to Admin Dashboard -->
+        <div class="mt-4">
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
+        </div>
     </div>
 
     <!-- Bootstrap JS and Popper.js -->

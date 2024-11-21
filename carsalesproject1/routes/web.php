@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\CarController;
-use App\Http\Controllers\AuthController; // Import the AuthController
+use App\Http\Controllers\AuthController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\AdminController;
 
 
 Route::get('/', function () {
@@ -120,8 +121,13 @@ Route::delete('/employee/delete-user/{id}', [EmployeeController::class, 'deleteU
 Route::get('/employee/shop', [ShopController::class, 'shopDashboard'])->name('employee.shop');
 
 // Users management 
-use App\Http\Controllers\AdminController;
+
 
 Route::get('/admin/users', [AdminController::class, 'registeredUsers'])->name('admin.registeredUsers');
 Route::get('/admin/users/register', [AdminController::class, 'showRegisterUserForm'])->name('admin.showRegisterUserForm');
 Route::post('/admin/users/register', [AdminController::class, 'registerUser'])->name('admin.registerUser');
+
+// 
+Route::get('/admin/sales-dashboard', [AdminController::class, 'dashboard'])
+    ->name('admin.salesDashboard')
+    ->middleware(['auth', RoleMiddleware::class . ':admin']);

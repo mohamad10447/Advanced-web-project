@@ -41,6 +41,16 @@
                 </li>
             </ul>
         </div>
+
+        <!-- Sales Analytics Section -->
+        <div class="mt-5 p-4 border rounded-3 bg-light shadow-sm">
+            <h4>Sales Analytics</h4>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-primary" href="{{ route('admin.salesDashboard') }}">View Sales Dashboard</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

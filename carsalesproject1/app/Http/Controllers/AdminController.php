@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -35,5 +36,30 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.registeredUsers')->with('success', 'User registered successfully.');
+    }
+    public function dashboard()
+    {
+        // Total registered users
+        $userCount = User::count();
+
+        // Total cars sold
+        $totalCarsSold = Car::whereNotNull('purchase_date_time')->count();
+
+        // Total revenue generated
+        $totalRevenue = Car::whereNotNull('purchase_date_time')->sum('price');
+
+        // Monthly sales trend
+        $salesTrends = Car::whereNotNull('purchase_date_time')
+            ->selectRaw('MONTH(purchase_date_time) as month, COUNT(*) as cars_sold, SUM(price) as revenue')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Get sold cars with buyer info
+        $soldCars = Car::whereNotNull('purchase_date_time')
+            ->with('buyer')  // Eager load the buyer relationship
+            ->get();
+
+        return view('admin.salesDashboard', compact('userCount', 'totalCarsSold', 'totalRevenue', 'salesTrends', 'soldCars'));
     }
 }

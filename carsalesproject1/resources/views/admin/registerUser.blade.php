@@ -45,6 +45,10 @@
 
             <button type="submit" class="btn btn-primary w-100">Register User</button>
         </form>
+        <!-- Back to Admin Dashboard -->
+        <div class="mt-4">
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
+        </div>
     </div>
 
     <!-- Bootstrap JS and Popper.js -->

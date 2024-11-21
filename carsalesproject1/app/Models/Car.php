@@ -28,6 +28,13 @@ class Car extends Model
         'comment',
         'comment_date_time'
     ];
+    protected $casts = [
+        'purchase_date_time' => 'datetime', // Cast purchase_date_time to Carbon instance
+    ];
+    public function buyer()
+    {
+        return $this->belongsTo(User::class, 'purchased_by_user_id');
+    }
 
     // Relationship to Discount
     public function discounts()

@@ -189,6 +189,10 @@
                 </tbody>
             </table>
         </div>
+        <!-- Back to Admin Dashboard -->
+        <div class="mt-4">
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

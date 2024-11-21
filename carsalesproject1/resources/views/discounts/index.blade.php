@@ -74,6 +74,10 @@
             </tbody>
         </table>
     </div>
+    <!-- Back to Admin Dashboard -->
+    <div class="mt-4">
+        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
+    </div>
 </div>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
