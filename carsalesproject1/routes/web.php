@@ -131,3 +131,23 @@ Route::post('/admin/users/register', [AdminController::class, 'registerUser'])->
 Route::get('/admin/sales-dashboard', [AdminController::class, 'dashboard'])
     ->name('admin.salesDashboard')
     ->middleware(['auth', RoleMiddleware::class . ':admin']);
+
+
+// Reset Password
+Route::get('/forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('forget.password');
+Route::post('/forget-password', [AuthController::class, 'sendResetLink'])->name('forget.password.send');
+
+// Manual reset route (this is what you need)
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset.password.update');
+
+// Email
+
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/send-test-email', function () {
+    $name = 'Mohamed Tarhine';  // You can customize the name here
+    Mail::to('mohamedtarhine@gmail.com')->send(new TestEmail($name));  // Pass the name as a parameter
+    return 'Test email sent!';
+});

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -125,5 +128,54 @@ class AuthController extends Controller
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'User  registered successfully');
+    }
+    // Reset Password
+
+    public function showForgetPasswordForm()
+    {
+        return view('auth.forget-password'); // Create a view for the forgot password form
+    }
+
+
+    public function sendResetLink(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        // Send the password reset link
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status == Password::RESET_LINK_SENT
+            ? back()->with('status', 'We have e-mailed your password reset link!')
+            : back()->withErrors(['email' => 'The provided email address does not exist.']);
+    }
+    public function showResetPasswordForm($token)
+    {
+        return view('auth.reset-password', compact('token')); // Create a view for resetting password
+    }
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8',
+            'token' => 'required'
+        ]);
+
+        // Reset the user's password
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => bcrypt($password)
+                ])->save();
+            }
+        );
+
+        return $status == Password::PASSWORD_RESET
+            ? redirect('/login')->with('success', 'Your password has been reset!')
+            : back()->withErrors(['email' => 'The provided credentials are incorrect.']);
     }
 }
