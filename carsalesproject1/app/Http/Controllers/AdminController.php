@@ -62,4 +62,12 @@ class AdminController extends Controller
 
         return view('admin.salesDashboard', compact('userCount', 'totalCarsSold', 'totalRevenue', 'salesTrends', 'soldCars'));
     }
+    public function mainDashboard()
+    {
+        // Total registered users
+        $userCount = User::count();
+
+            // Total cars in inventory
+        ;
+    }
 }

@@ -9,6 +9,7 @@
     <style>
         body {
             background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
         }
 
         h1 {
@@ -31,6 +32,7 @@
             background-color: #343a40;
             color: white;
             text-align: center;
+            border-top: 2px solid #dee2e6;
         }
 
         .table td,
@@ -51,6 +53,7 @@
         .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
+            padding: 10px 20px;
         }
 
         .btn-primary:hover {
@@ -68,8 +71,81 @@
             border-color: #117a8b;
         }
 
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
         .form-control {
             border-radius: 0.375rem;
+            box-shadow: none;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.5);
+        }
+
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .modal-footer {
+            background-color: #f8f9fa;
+        }
+
+        .modal-body p {
+            font-size: 16px;
+        }
+
+        .modal-body img {
+            border-radius: 8px;
+        }
+
+        .mt-4 {
+            margin-top: 2rem !important;
+        }
+
+        .btn-back {
+            background-color: #28a745;
+            border-color: #28a745;
+            padding: 10px 20px;
+        }
+
+        .btn-back:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .table td,
+        .table th {
+            padding: 12px;
+        }
+
+        .table-responsive {
+            margin-bottom: 30px;
         }
     </style>
 </head>
@@ -111,8 +187,18 @@
                         <option value="automatic" {{ request('transmission') == 'automatic' ? 'selected' : '' }}>Automatic</option>
                     </select>
                 </div>
+                <div class="col-md-3">
+                    <input type="number" name="min_price" class="form-control" placeholder="Min Price" value="{{ request('min_price') }}" min="0">
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ request('max_price') }}" min="0">
+                </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+                <div class="col-md-2">
+                    <!-- Reset Button -->
+                    <button type="reset" class="btn btn-secondary w-100" onclick="window.location.href = '{{ route('admin.cars') }}'">Reset Filter</button>
                 </div>
             </div>
         </form>
@@ -169,18 +255,13 @@
                                             <p><strong>Type:</strong> {{ $car->type }}</p>
                                             <p><strong>Price:</strong> ${{ number_format($car->price, 2) }}</p>
                                             <p><strong>Year:</strong> {{ $car->year }}</p>
-                                            <p><strong>Mileage:</strong> {{ $car->mileage }} miles</p>
-                                            <p><strong>Fuel Type:</strong> {{ $car->fuel_type }}</p>
-                                            <p><strong>Transmission:</strong> {{ $car->transmission }}</p>
-                                            <p><strong>SSN:</strong> {{ $car->ssn }}</p>
-                                            <p><strong>Purchase Date:</strong> {{ \Carbon\Carbon::parse($car->purchase_date_time)->format('Y-m-d H:i') }}</p>
-                                            <p><strong>Purchased By:</strong> {{ $car->purchased_by_user_id }}</p>
-                                            <p><strong>Comment:</strong> {{ $car->comment }}</p>
+                                            <p><strong>Mileage:</strong> {{ number_format($car->mileage) }} km</p>
+                                            <p><strong>Fuel Type:</strong> {{ ucfirst($car->fuel_type) }}</p>
+                                            <p><strong>Transmission:</strong> {{ ucfirst($car->transmission) }}</p>
+                                            <p><strong>Description:</strong> {{ $car->description }}</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-back" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +270,6 @@
                 </tbody>
             </table>
         </div>
-        <!-- Back to Admin Dashboard -->
         <div class="mt-4">
             <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
         </div>

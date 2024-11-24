@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,8 +17,15 @@ class AuthController extends Controller
     {
         $users = User::all(); // Fetch all users from the database
         $userCount = User::count(); // Get the total number of users
-        return view('admin', compact('users', 'userCount')); // Pass users and userCount to the view
+        $carCount = Car::count(); // Get the total number of cars in inventory
+
+        // Get total revenue from all cars that have been sold (i.e., have a non-null purchase_date_time)
+        $totalRevenue = Car::whereNotNull('purchase_date_time')->sum('price');
+
+        return view('admin', compact('users', 'userCount', 'carCount', 'totalRevenue')); // Pass users, userCount, carCount, and totalRevenue to the view
     }
+
+
 
     public function editUser($id)
     {

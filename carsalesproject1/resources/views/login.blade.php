@@ -106,7 +106,11 @@
                     <p>Don't have an account? <a href="{{ route('signup') }}" class="text-danger">Sign Up Now</a></p>
                     <p><a href="{{ route('forget.password') }}" class="text-danger">Forgot password?</a></p>
 
-                    <p><a href="auth/google" class="text-danger">Login with Google</a></p>
+                    <p><a href="{{ route('auth.google') }}" class="text-danger">
+                            Login with Google
+                        </a>
+
+                    </p>
                 </div>
             </form>
             <!-- /form -->

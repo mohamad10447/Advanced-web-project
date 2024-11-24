@@ -103,14 +103,25 @@ Route::get('/login', function () {
 // Admin Cars:
 // This will protect the /shop route
 Route::middleware(['auth'])->get('/shop', [CarController::class, 'indexShop'])->name('shop');
-Route::get('/admin/cars', [CarController::class, 'index'])->name('admin.cars');
-Route::post('/admin/cars', [CarController::class, 'store'])->name('admin.addCar');
-Route::get('/admin/cars/{id}/edit', [CarController::class, 'edit'])->name('admin.editCar');
-Route::put('/admin/cars/{id}', [CarController::class, 'update'])->name('admin.updateCar');
-Route::delete('/admin/cars/{id}', [CarController::class, 'destroy'])->name('admin.deleteCar');
 
-// Discount Routes
-Route::resource('discounts', DiscountController::class);
+Route::middleware((['auth', RoleMiddleware::class . ':admin']))->group(function () {
+    Route::get('/admin/cars', [CarController::class, 'index'])->name('admin.cars');
+    Route::post('/admin/cars', [CarController::class, 'store'])->name('admin.addCar');
+    Route::get('/admin/cars/{id}/edit', [CarController::class, 'edit'])->name('admin.editCar');
+    Route::put('/admin/cars/{id}', [CarController::class, 'update'])->name('admin.updateCar');
+    Route::delete('/admin/cars/{id}', [CarController::class, 'destroy'])->name('admin.deleteCar');
+
+    // Discount Routes
+    Route::resource('discounts', DiscountController::class);
+
+    // Users Management Routes
+    Route::get('/admin/users', [AdminController::class, 'registeredUsers'])->name('admin.registeredUsers');
+    Route::get('/admin/users/register', [AdminController::class, 'showRegisterUserForm'])->name('admin.showRegisterUserForm');
+    Route::post('/admin/users/register', [AdminController::class, 'registerUser'])->name('admin.registerUser');
+});
+
+
+
 
 // employee Routes
 Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
@@ -120,12 +131,7 @@ Route::get('/employee/edit-user/{id}', [EmployeeController::class, 'editUser'])-
 Route::delete('/employee/delete-user/{id}', [EmployeeController::class, 'deleteUser'])->name('employee.deleteUser');
 Route::get('/employee/shop', [ShopController::class, 'shopDashboard'])->name('employee.shop');
 
-// Users management 
 
-
-Route::get('/admin/users', [AdminController::class, 'registeredUsers'])->name('admin.registeredUsers');
-Route::get('/admin/users/register', [AdminController::class, 'showRegisterUserForm'])->name('admin.showRegisterUserForm');
-Route::post('/admin/users/register', [AdminController::class, 'registerUser'])->name('admin.registerUser');
 
 // 
 Route::get('/admin/sales-dashboard', [AdminController::class, 'dashboard'])
@@ -150,4 +156,43 @@ Route::get('/send-test-email', function () {
     $name = 'Mohamed Tarhine';  // You can customize the name here
     Mail::to('mohamedtarhine@gmail.com')->send(new TestEmail($name));  // Pass the name as a parameter
     return 'Test email sent!';
+});
+// Login With GOOGLE
+
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
+Route::get('/auth/google', function () {
+    return Socialite::driver('google')->redirect();
+})->name('auth.google');
+
+Route::get('/auth/google/callback', function () {
+    $googleUser = Socialite::driver('google')->user();
+
+    // Check if the user already exists in your database
+    $user = User::where('email', $googleUser->getEmail())->first();
+
+    if (!$user) {
+        // If user doesn't exist, create a new one
+        $user = User::create([
+            'name' => $googleUser->getName(),
+            'email' => $googleUser->getEmail(),
+            'google_id' => $googleUser->getId(),
+            'role' => 'client', // Default role for new users
+            'password' => bcrypt('password'), // Dummy password
+        ]);
+    }
+
+    // Log the user in
+    Auth::login($user);
+
+    // Redirect based on role
+    if ($user->role === 'admin') {
+        return redirect('/admin/dashboard'); // Admin dashboard
+    } elseif ($user->role === 'employee') {
+        return redirect('/employee/dashboard'); // Employee dashboard
+    } else {
+        return redirect('/home'); // Default client dashboard
+    }
 });
