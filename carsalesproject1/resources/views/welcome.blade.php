@@ -8,8 +8,7 @@
   <title>Car Sales</title>
   <script type="module" src="{{ asset('main.js') }}" defer></script>
   <script src="https://kit.fontawesome.com/afd19b9f4f.js" crossorigin="anonymous"></script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 </head>
 
@@ -902,6 +901,7 @@
     @yield('login')
     @yield('shop')
     @yield('signup')
+    @yield('about-carsale')
   </main>
 
   <footer class="footer-distributed">

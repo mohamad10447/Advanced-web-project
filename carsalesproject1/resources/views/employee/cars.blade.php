@@ -227,8 +227,8 @@
                             <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewCarModal-{{ $car->id }}">
                                 View
                             </button>
-                            <a href="{{ route('admin.editCar', $car->id) }}" class="btn btn-warning btn-sm mb-1">Edit</a>
-                            <form action="{{ route('admin.deleteCar', $car->id) }}" method="POST" class="d-inline">
+                            <a href="{{ route('employee.editCar', $car->id) }}" class="btn btn-warning btn-sm mb-1">Edit</a>
+                            <form action="{{ route('employee.deleteCar', $car->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this car?')">Delete</button>
@@ -271,7 +271,7 @@
             </table>
         </div>
         <div class="mt-4">
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
+            <a href="{{ route('employee.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
         </div>
     </div>
 

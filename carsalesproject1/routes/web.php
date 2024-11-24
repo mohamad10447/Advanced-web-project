@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\AdminController;
 
-
 Route::get('/', function () {
     return view('Home');
 })->name('Home');
@@ -122,14 +121,16 @@ Route::middleware((['auth', RoleMiddleware::class . ':admin']))->group(function 
 
 
 
-
-// employee Routes
-Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
-
-// User actions (if required for the employee to manage them)
-Route::get('/employee/edit-user/{id}', [EmployeeController::class, 'editUser'])->name('employee.editUser');
-Route::delete('/employee/delete-user/{id}', [EmployeeController::class, 'deleteUser'])->name('employee.deleteUser');
-Route::get('/employee/shop', [ShopController::class, 'shopDashboard'])->name('employee.shop');
+// roubeel 
+Route::middleware((['auth', RoleMiddleware::class . ':employee']))->group(function () {
+    Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
+    Route::get('/employee/register-user', [EmployeeController::class, 'showRegisterUserForm1'])->name('employee.registeredUsers');
+    Route::get('/employee/cars', [EmployeeController::class, 'index2'])->name('employee.cars');
+    Route::post('/employee/cars', [EmployeeController::class, 'store1'])->name('employee.addCar');
+    Route::get('/employee/cars/{id}/edit', [EmployeeController::class, 'edit1'])->name('employee.editCar');
+    Route::put('/employee/cars/{id}', [EmployeeController::class, 'update1'])->name('employee.updateCar');
+    Route::delete('/employee/cars/{id}', [EmployeeController::class, 'destroy1'])->name('employee.deleteCar');
+});
 
 
 

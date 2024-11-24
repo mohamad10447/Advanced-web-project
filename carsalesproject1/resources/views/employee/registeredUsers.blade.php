@@ -113,18 +113,6 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
                             <td>
-                                <a href="{{ route('admin.editUser', $user->id) }}" class="btn btn-info btn-sm me-2">
-                                    Edit
-                                </a>
-                                <form action="{{ route('admin.deleteUser', $user->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                        Delete
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -133,7 +121,7 @@
 
         <!-- Back to Admin Dashboard -->
         <div class="mt-4">
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
+            <a href="{{ route('employee.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
         </div>
     </div>
 

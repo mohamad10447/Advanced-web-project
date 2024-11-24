@@ -30,7 +30,7 @@
         @endif
 
         <!-- Form to Edit Car -->
-        <form action="{{ route('admin.updateCar', $car->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('employee.updateCar', $car->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT') <!-- Use PUT method for updates -->
 
@@ -77,12 +77,12 @@
 
             <div class="d-flex justify-content-center mt-4">
                 <button type="submit" class="btn btn-primary me-2">Update Car</button>
-                <a href="{{ route('admin.cars') }}" class="btn btn-secondary">Back to Cars</a>
+                <a href="{{ route('employee.cars') }}" class="btn btn-secondary">Back to Cars</a>
             </div>
         </form>
-        <!-- Back to Admin Dashboard -->
+        <!-- Back to  Dashboard -->
         <div class="mt-4">
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
+            <a href="{{ route('employee.dashboard') }}" class="btn btn-primary">Back to employee Dashboard</a>
         </div>
     </div>
 
