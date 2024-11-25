@@ -102,9 +102,13 @@ class AuthController extends Controller
 
         // Attempt to log the user in
         if (Auth::attempt(['email' => $fields['email'], 'password' => $fields['password']])) {
-            // Check if the authenticated user has the 'admin' role
-            if (auth()->user()->role === 'admin') {
+            // Check the role of the authenticated user
+            $user = auth()->user();
+
+            if ($user->role === 'admin') {
                 return redirect('/admin/dashboard')->with('success', "Welcome to the admin dashboard!");
+            } elseif ($user->role === 'employee') {
+                return redirect('/employee/dashboard')->with('success', "Welcome to the employee dashboard!");
             } else {
                 return redirect('/')->with('success', "You have logged in successfully");
             }
@@ -113,6 +117,7 @@ class AuthController extends Controller
             return redirect('/login')->with('errorLogin', "You entered wrong info");
         }
     }
+
 
 
 
