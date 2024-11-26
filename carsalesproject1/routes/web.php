@@ -22,6 +22,7 @@ Route::get('/login', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
+Route::post('/filter', [CarController::class, 'filter'])->name('filter');
 
 
 Route::get('/aboutus', function () {
@@ -40,7 +41,7 @@ Route::get('/warranty', function () {
     return view('warranty');
 });
 
-Route::post('/removeCarFromSession', [CheckoutController::class, 'removeCarFromSession'])->name('removeCarFromSession');
+Route::post('/remove-car-from-session', [CarController::class, 'removeCarFromSession'])->name('removeCarFromSession');
 Route::post('/purchase', [CheckoutController::class, 'updatedb'])->name('purchase');
 
 // Sign-Up Routes (Only accessible to guests)
@@ -61,7 +62,6 @@ Route::get('/payment', function () {
 })->name('paymentPage');
 
 
-Route::post('/remove-car-from-session', [CarController::class, 'removeCarFromSession'])->name('removeCarFromSession');
 //Route::get('/shop', [CarController::class, 'indexShop'])->name('shop');
 Route::get('/shop', function () {
     $availablecar = App\Models\Car::all(); // Example: Fetch cars from the database

@@ -71,7 +71,35 @@ class CarController extends Controller
         // Return the view with cars and total cars
         return view('admin.cars', compact('cars', 'totalCars'));
     }
+    public function filter(Request $request)
+    {
+      
+    // Retrieve filter data
+    $year = $request->input('year');
+    $price = $request->input('price');
+    $bodytype = $request->input('bodytype');
+    $query = Car::query();
 
+    if ($year) {
+        $query->where('year', '=', $year);
+    }
+
+    if ($price) {
+        $query->where('price', '<=', $price);
+    }
+
+    if ($bodytype ) {
+        $query->where('type', $bodytype);
+    }
+
+    $cars = $query->get();
+
+    return response()->json(['cars' => $cars]);
+
+    
+    }
+    
+    
     public function indexShop()
     {
         $cars = Car::all();
@@ -134,7 +162,7 @@ class CarController extends Controller
                 'Carids' => 'required|array', // Carids should be an array of car IDs
                 'Carids.*' => 'exists:cars,id', // Ensure each car ID exists in the cars table
                 'feedback' => 'nullable|string',
-                'time' => 'required|date_format:Y-m-d\TH:i:s.u\Z', // Ensure the time is in the correct format
+                'time' => 'required', // Ensure the time is in the correct format
             ]);
 
             // Find the user
@@ -248,4 +276,38 @@ class CarController extends Controller
         // Redirect to a confirmation page or success page
         return redirect()->route('purchase.success');
     }
+    public function removeCarFromSession(Request $request)
+{
+    $carId = $request->input('carId');
+    $selectedCars = session('selectedCars', []);
+
+    // Convert the collection to an array if it is a collection
+    if ($selectedCars instanceof \Illuminate\Database\Eloquent\Collection) {
+        $selectedCars = $selectedCars->toArray();
+    }
+
+    // Remove the car with the matching ID from the array
+    $selectedCars = array_filter($selectedCars, function ($car) use ($carId) {
+        return $car['id'] != $carId;
+    });
+
+    // Re-index the array after filtering
+    $selectedCars = array_values($selectedCars);
+
+    // Calculate the new total price
+    $totalPrice = array_reduce($selectedCars, function ($sum, $car) {
+        return $sum + $car['price']; // Ensure car['price'] is the correct key
+    }, 0);
+
+    // Update session with modified cars and total price
+    session(['selectedCars' => $selectedCars, 'totalPrice' => $totalPrice]);
+
+    // Return updated cart data
+    return response()->json([
+        'success' => true,
+        'totalPrice' => number_format($totalPrice, 2),
+        'cartCount' => count($selectedCars)
+    ]);
+}
+
 }

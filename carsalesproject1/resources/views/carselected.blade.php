@@ -159,38 +159,35 @@
 
                 // Send an AJAX request to remove the car from the session
                 $.ajax({
-                    url: '{{ route("removeCarFromSession") }}', // Ensure this route is correct
-                    type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}', // CSRF token
-                        carId: carId // Send the car ID
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            // Remove the car from the page
-                            $("#car-" + carId).remove();
-
-                            // Update the total price and the number of items in the cart icon
-                            $(".total-price").text(response.totalPrice);
-                            $(".cardnumber").text(response.cartCount); // Update cart count in the icon
-                        } else {
-                            alert('Error: ' + response.message); // Show error from server
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("AJAX Error:", error); // Log the error message
-                        console.log("XHR response:", xhr.responseText); // Log the full error response from the server
-                        alert('Error occurred while deleting the car.');
-                    }
-                });
-            });
+    url: '{{ route("removeCarFromSession") }}',
+    type: 'POST',
+    data: {
+        _token: '{{ csrf_token() }}',
+        carId: carId
+    },
+    success: function(response) {
+        if (response.success) {
+            $("#car-" + carId).remove();
+            $(".total-price").text(response.totalPrice);
+            $(".cardnumber").text(response.cartCount);
+        } else {
+            alert('Error: ' + response.message);
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error("AJAX Error:", error);
+        console.error("Response:", xhr.responseText);
+        alert('Error occurred while deleting the car: ' + xhr.responseText);
+    }
+});
+            })
 
             // Handle the proceed to payment button click
             $(document).on("click", ".pr", function(e) {
     e.preventDefault();
 
-    // Manually set the time, or use any other desired time
-    var customTime = "2024-11-20T12:00:00.000000Z"; // Replace with your custom time if necessary
+    // Get the current time in ISO 8601 format (similar to the format you mentioned)
+    var currentTime = new Date().toISOString(); // This gives the current time in the correct format
 
     var userId = @json(auth()->id()); // Get the logged-in user ID
     var selectedCarIds = [];
@@ -211,7 +208,7 @@
         url: '{{ route("purchase") }}', // This resolves to '/purchase'
         type: 'POST',
         data: {
-            time: customTime, // Send the custom time in the correct format
+            time: currentTime, // Send the current time dynamically
             _token: '{{ csrf_token() }}',  // CSRF token
             userId: userId,  // Send the user ID
             Carids: selectedCarIds,  // Send the array of car IDs
