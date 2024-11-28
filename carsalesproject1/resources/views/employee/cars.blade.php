@@ -147,18 +147,107 @@
         .table-responsive {
             margin-bottom: 30px;
         }
+
+        header .navbar {
+            background: linear-gradient(90deg, #212529, #495057);
+            border-bottom: 3px solid #ff4d4d;
+            /* Red border matching the primary color */
+        }
+
+        header .navbar-brand {
+            font-weight: bold;
+            font-size: 1.75rem;
+            color: #fff;
+        }
+
+        header .navbar-brand span {
+            color: #ff4d4d;
+            /* Red color */
+        }
+
+        header .nav-link {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        header .nav-link:hover,
+        header .nav-link.active {
+            color: #ff4d4d;
+            /* Red color for hover */
+        }
+
+        .btn-outline-light:hover {
+            background-color: #ff4d4d;
+            /* Red hover effect */
+            border-color: #ff4d4d;
+            color: #212529;
+        }
+
+        footer {
+            margin-top: 2rem;
+            padding: 1rem 0;
+            background-color: #212529;
+            color: #fff;
+            text-align: center;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+        }
     </style>
 </head>
 
 <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ route('employee.dashboard') }}">
+                    Employee<span>Dashboard</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#employeeNavbar"
+                    aria-controls="employeeNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="employeeNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('employee.registeredUsers') ? 'active' : '' }}"
+                                href="{{ route('employee.registeredUsers') }}">Manage Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('employee.cars') ? 'active' : '' }}"
+                                href="{{ route('employee.cars') }}">Manage Cars</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-light">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div class="container mt-5">
-        <h1 class="mb-4 text-center">Cars in Stock</h1>
+        <h1 class="mb-4 text-center" style="color: #000;">Cars in Stock</h1>
 
-        <div class="alert alert-info text-center">
+        <div class="alert alert-info text-center" style="background-color: #000; color: #fff;">
             <strong>Total Cars in Stock:</strong> {{ $totalCars }}
         </div>
 
-        <h2 class="text-center mb-4">Manage Cars</h2>
+        <h2 class="text-center mb-4" style="color: #000;">Manage Cars</h2>
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('admin.cars') }}" class="mb-4">
@@ -194,11 +283,11 @@
                     <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ request('max_price') }}" min="0">
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                    <button type="submit" class="btn" style="background-color: #ff0000; color: #fff; width: 100%;">Search</button>
                 </div>
                 <div class="col-md-2">
                     <!-- Reset Button -->
-                    <button type="reset" class="btn btn-secondary w-100" onclick="window.location.href = '{{ route('admin.cars') }}'">Reset Filter</button>
+                    <button type="reset" class="btn" style="background-color: #333; color: #fff; width: 100%;" onclick="window.location.href = '{{ route('admin.cars') }}'">Reset Filter</button>
                 </div>
             </div>
         </form>
@@ -206,7 +295,7 @@
         <div class="table-responsive">
             <table class="table table-hover table-striped align-middle">
                 <thead>
-                    <tr>
+                    <tr style="background-color: #000; color: #fff;">
                         <th scope="col">Image</th>
                         <th scope="col">Brand</th>
                         <th scope="col">Model</th>
@@ -240,7 +329,7 @@
                     <div class="modal fade" id="viewCarModal-{{ $car->id }}" tabindex="-1" aria-labelledby="viewCarModalLabel-{{ $car->id }}" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="modal-header" style="background-color: #ff0000; color: #fff;">
                                     <h5 class="modal-title" id="viewCarModalLabel-{{ $car->id }}">Car Details</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
@@ -261,7 +350,7 @@
                                             <p><strong>Description:</strong> {{ $car->description }}</p>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-back" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn" style="background-color: #333; color: #fff;" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -271,9 +360,13 @@
             </table>
         </div>
         <div class="mt-4">
-            <a href="{{ route('employee.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
+            <a href="{{ route('employee.dashboard') }}" class="btn" style="background-color: #ff0000; color: #fff;">Back to Dashboard</a>
         </div>
     </div>
+
+    <footer>
+        <p>© 2024 Employee Dashboard. All rights reserved.</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

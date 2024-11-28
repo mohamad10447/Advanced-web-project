@@ -8,14 +8,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f4f5f7;
+            background-color: #f4f4f4;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         /* Navbar Styling */
         header .navbar {
-            background: linear-gradient(90deg, #212529, #495057);
-            border-bottom: 3px solid #ffc107;
+            background: linear-gradient(90deg, #000, #333);
+            border-bottom: 3px solid #ff0000;
         }
 
         header .navbar-brand {
@@ -25,7 +25,7 @@
         }
 
         header .navbar-brand span {
-            color: #ffc107;
+            color: #ff0000;
         }
 
         header .nav-link {
@@ -36,20 +36,20 @@
 
         header .nav-link:hover,
         header .nav-link.active {
-            color: #ffc107;
+            color: #ff0000;
         }
 
         .btn-outline-light:hover {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: #212529;
+            background-color: #ff0000;
+            border-color: #ff0000;
+            color: #000;
         }
 
         /* Page Title */
         .container h1 {
             font-size: 2.5rem;
             font-weight: bold;
-            color: #343a40;
+            color: #000;
             margin-bottom: 2rem;
         }
 
@@ -57,7 +57,7 @@
         .card {
             border: none;
             border-radius: 10px;
-            background-color: #ffffff;
+            background-color: #fff;
             box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -69,14 +69,18 @@
 
         .card h4 {
             font-weight: bold;
-            color: #495057;
+            color: #000;
+        }
+
+        .card p {
+            color: #ff0000;
         }
 
         /* Footer Styling */
         footer {
             margin-top: 2rem;
             padding: 1rem 0;
-            background-color: #212529;
+            background-color: #000;
             color: #fff;
             text-align: center;
         }

@@ -14,7 +14,8 @@
 
         header .navbar {
             background: linear-gradient(90deg, #212529, #495057);
-            border-bottom: 3px solid #ffc107;
+            border-bottom: 3px solid #ff4d4d;
+            /* Red border matching the primary color */
         }
 
         header .navbar-brand {
@@ -24,7 +25,8 @@
         }
 
         header .navbar-brand span {
-            color: #ffc107;
+            color: #ff4d4d;
+            /* Red color */
         }
 
         header .nav-link {
@@ -35,12 +37,14 @@
 
         header .nav-link:hover,
         header .nav-link.active {
-            color: #ffc107;
+            color: #ff4d4d;
+            /* Red color for hover */
         }
 
         .btn-outline-light:hover {
-            background-color: #ffc107;
-            border-color: #ffc107;
+            background-color: #ff4d4d;
+            /* Red hover effect */
+            border-color: #ff4d4d;
             color: #212529;
         }
 
@@ -83,6 +87,24 @@
         .container {
             flex: 1;
         }
+
+        .btn {
+            background-color: #ff4d4d;
+            /* Red button matching primary color */
+            color: white;
+            border: none;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #ff3333;
+            /* Slightly darker red for hover */
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 
@@ -99,8 +121,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="employeeNavbar">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('employee.registeredUsers') ? 'active' : '' }}"
                                 href="{{ route('employee.registeredUsers') }}">Manage Users</a>

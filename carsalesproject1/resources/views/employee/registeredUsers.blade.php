@@ -84,25 +84,115 @@
             max-width: 1200px;
             margin-top: 50px;
         }
+
+        header .navbar {
+            background: linear-gradient(90deg, #212529, #495057);
+            border-bottom: 3px solid #ff4d4d;
+            /* Red border matching the primary color */
+        }
+
+        header .navbar-brand {
+            font-weight: bold;
+            font-size: 1.75rem;
+            color: #fff;
+        }
+
+        header .navbar-brand span {
+            color: #ff4d4d;
+            /* Red color */
+        }
+
+        header .nav-link {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        header .nav-link:hover,
+        header .nav-link.active {
+            color: #ff4d4d;
+            /* Red color for hover */
+        }
+
+        .btn-outline-light:hover {
+            background-color: #ff4d4d;
+            /* Red hover effect */
+            border-color: #ff4d4d;
+            color: #212529;
+        }
+
+        footer {
+            margin-top: 2rem;
+            padding: 1rem 0;
+            background-color: #212529;
+            color: #fff;
+            text-align: center;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+        }
     </style>
 </head>
 
 <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ route('employee.dashboard') }}">
+                    Employee<span>Dashboard</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#employeeNavbar"
+                    aria-controls="employeeNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="employeeNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('employee.registeredUsers') ? 'active' : '' }}"
+                                href="{{ route('employee.registeredUsers') }}">Manage Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('employee.cars') ? 'active' : '' }}"
+                                href="{{ route('employee.cars') }}">Manage Cars</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-light">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div class="container mt-5">
-        <h3 class="mb-4 text-center">Registered Users</h3>
+        <h3 class="mb-4 text-center" style="color: #000;">Registered Users</h3>
+
         <div class="card shadow-sm">
-            <div class="card-header">
+            <div class="card-header" style="background-color: #ff0000; color: #fff;">
                 <span>Manage Registered Users</span>
             </div>
             <div class="card-body">
                 <table class="table table-hover table-striped">
                     <thead>
-                        <tr>
+                        <tr style="background-color: #000; color: #fff;">
                             <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>Actions</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -112,7 +202,8 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
-                            <td>
+
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -121,9 +212,14 @@
 
         <!-- Back to Admin Dashboard -->
         <div class="mt-4">
-            <a href="{{ route('employee.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
+            <a href="{{ route('employee.dashboard') }}" class="btn" style="background-color: #ff0000; color: #fff;">Back to Dashboard</a>
         </div>
     </div>
+
+    <footer class="text-center mt-4" style="background-color: #333; color: #fff; padding: 10px;">
+        <p>© 2024 Employee Dashboard. All rights reserved.</p>
+    </footer>
+
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

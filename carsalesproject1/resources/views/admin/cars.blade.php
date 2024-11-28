@@ -13,15 +13,25 @@
         }
 
         h1 {
-            color: #007bff;
+            color: #ff4d4d;
+            /* Bright red for "Cars in Stock" */
             font-weight: 700;
         }
 
         .alert-info {
-            background-color: #e9f7ff;
-            border-color: #b3e5ff;
-            color: #0056b3;
+            background-color: #330000;
+            /* Dark red background */
+            border-color: #660000;
+            /* Matching border */
+            color: #ffcccc;
+            /* Light red text for "Total Cars in Stock" */
             font-weight: 600;
+        }
+
+        h2 {
+            color: #292929;
+            /* Black for "Manage Cars" */
+            font-weight: 700;
         }
 
         .table-hover tbody tr:hover {
@@ -51,44 +61,14 @@
         }
 
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #ff4d4d;
+            border-color: #ff4d4d;
             padding: 10px 20px;
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .btn-info {
-            background-color: #17a2b8;
-            border-color: #17a2b8;
-        }
-
-        .btn-info:hover {
-            background-color: #138496;
-            border-color: #117a8b;
-        }
-
-        .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-        }
-
-        .btn-warning:hover {
-            background-color: #e0a800;
-            border-color: #d39e00;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-            border-color: #bd2130;
+            background-color: #e63939;
+            border-color: #e63939;
         }
 
         .form-control {
@@ -97,8 +77,8 @@
         }
 
         .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.5);
+            border-color: #ff4d4d;
+            box-shadow: 0 0 0 0.25rem rgba(255, 77, 77, 0.5);
         }
 
         .modal-content {
@@ -106,7 +86,7 @@
         }
 
         .modal-header {
-            background-color: #007bff;
+            background-color: #ff4d4d;
             color: white;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
@@ -116,41 +96,132 @@
             background-color: #f8f9fa;
         }
 
-        .modal-body p {
-            font-size: 16px;
-        }
-
-        .modal-body img {
-            border-radius: 8px;
-        }
-
-        .mt-4 {
-            margin-top: 2rem !important;
-        }
-
         .btn-back {
-            background-color: #28a745;
-            border-color: #28a745;
+            background-color: #292929;
+            /* Black for "Back" button */
+            border-color: #292929;
+            color: white;
             padding: 10px 20px;
         }
 
         .btn-back:hover {
-            background-color: #218838;
-            border-color: #1e7e34;
-        }
-
-        .table td,
-        .table th {
-            padding: 12px;
+            background-color: #1e1e1e;
+            /* Darker black */
+            border-color: #1a1a1a;
         }
 
         .table-responsive {
             margin-bottom: 30px;
         }
+
+        /* Navbar Styling */
+        header .navbar {
+            background: linear-gradient(90deg, #000, #333);
+            border-bottom: 3px solid #ff0000;
+        }
+
+        header .navbar-brand {
+            font-weight: bold;
+            font-size: 1.75rem;
+            color: #fff;
+        }
+
+        header .navbar-brand span {
+            color: #ff0000;
+        }
+
+        header .nav-link {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        header .nav-link:hover,
+        header .nav-link.active {
+            color: #ff0000;
+        }
+
+        .btn-outline-light:hover {
+            background-color: #ff0000;
+            border-color: #ff0000;
+            color: #000;
+        }
+
+        /* Footer Styling */
+        footer {
+            margin-top: 2rem;
+            padding: 1rem 0;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Content wrapper takes up remaining space above the footer */
+        .container {
+            flex: 1;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
     </style>
+
 </head>
 
 <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
+                    Admin<span>Dashboard</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar"
+                    aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="adminNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.registeredUsers') ? 'active' : '' }}"
+                                href="{{ route('admin.registeredUsers') }}">Manage Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.showRegisterUserForm') ? 'active' : '' }}"
+                                href="{{ route('admin.showRegisterUserForm') }}">Register User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.cars') ? 'active' : '' }}"
+                                href="{{ route('admin.cars') }}">Manage Cars</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('discounts.index') ? 'active' : '' }}"
+                                href="{{ route('discounts.index') }}">Manage Discounts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.salesDashboard') ? 'active' : '' }}"
+                                href="{{ route('admin.salesDashboard') }}">Sales Dashboard</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-light">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div class="container mt-5">
         <h1 class="mb-4 text-center">Cars in Stock</h1>
 
@@ -274,6 +345,9 @@
             <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Back to Admin Dashboard</a>
         </div>
     </div>
+    <footer>
+        <p>© 2024 Admin Dashboard. All rights reserved.</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
