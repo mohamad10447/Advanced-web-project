@@ -209,6 +209,10 @@
                             <a class="nav-link {{ request()->routeIs('admin.salesDashboard') ? 'active' : '' }}"
                                 href="{{ route('admin.salesDashboard') }}">Sales Dashboard</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.messages') ? 'active' : '' }}"
+                                href="{{ route('admin.messages') }}">View Messages</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">

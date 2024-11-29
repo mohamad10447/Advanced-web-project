@@ -117,6 +117,9 @@ Route::middleware((['auth', RoleMiddleware::class . ':admin']))->group(function 
     Route::get('/admin/users', [AdminController::class, 'registeredUsers'])->name('admin.registeredUsers');
     Route::get('/admin/users/register', [AdminController::class, 'showRegisterUserForm'])->name('admin.showRegisterUserForm');
     Route::post('/admin/users/register', [AdminController::class, 'registerUser'])->name('admin.registerUser');
+    // View Sales
+    Route::get('/admin/messages', [AdminController::class, 'viewMessages'])->name('admin.messages');
+    Route::delete('/admin/messages/{id}', [AdminController::class, 'deleteMessage'])->name('admin.deleteMessage');
 });
 
 
@@ -197,3 +200,8 @@ Route::get('/auth/google/callback', function () {
         return redirect('/home'); // Default client dashboard
     }
 });
+
+// Contact Page
+use App\Http\Controllers\ContactController;
+
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

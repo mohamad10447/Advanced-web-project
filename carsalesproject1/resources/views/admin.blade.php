@@ -137,6 +137,10 @@
                             <a class="nav-link {{ request()->routeIs('admin.salesDashboard') ? 'active' : '' }}"
                                 href="{{ route('admin.salesDashboard') }}">Sales Dashboard</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.messages') ? 'active' : '' }}"
+                                href="{{ route('admin.messages') }}">View Messages</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
@@ -224,6 +228,21 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <!-- Messages Management -->
+            <div class="col-md-4 mb-4">
+                <div class="card p-4">
+                    <h4>Messages Management</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.messages') }}">View Messages</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <footer>

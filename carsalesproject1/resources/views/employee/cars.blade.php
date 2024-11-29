@@ -250,7 +250,7 @@
         <h2 class="text-center mb-4" style="color: #000;">Manage Cars</h2>
 
         <!-- Search Form -->
-        <form method="GET" action="{{ route('admin.cars') }}" class="mb-4">
+        <form method="GET" action="{{ route('employee.cars') }}" class="mb-4">
             <div class="row g-3">
                 <div class="col-md-3">
                     <input type="text" name="type" class="form-control" placeholder="Search by Type" value="{{ request('type') }}">

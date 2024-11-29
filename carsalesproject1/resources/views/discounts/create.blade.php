@@ -101,6 +101,10 @@
                             <a class="nav-link {{ request()->routeIs('admin.salesDashboard') ? 'active' : '' }}"
                                 href="{{ route('admin.salesDashboard') }}">Sales Dashboard</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.messages') ? 'active' : '' }}"
+                                href="{{ route('admin.messages') }}">View Messages</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
@@ -156,6 +160,10 @@
 
             <button type="submit" class="btn" style="background-color: #ff4d4d; border-color: #ff4d4d; color: #fff; font-weight: bold;">Create Discount</button>
         </form>
+        <!-- Back to Discounts Button -->
+        <div class="mt-4 text-center">
+            <a href="{{ route('discounts.index') }}" class="btn btn-secondary" style="background-color: #292929; border-color: #292929;">Back to Discounts</a>
+        </div>
 
         <!-- Back to Admin Dashboard -->
         <div class="mt-3 text-center">

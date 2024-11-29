@@ -4,8 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register New User</title>
+    <title>View Messages</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        h1 {
+            color: red;
+            font-weight: bold;
+        }
+
+        .table thead th {
+            background-color: black;
+            color: white;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .btn-primary {
+            background-color: red;
+            border-color: red;
+        }
+
+        .btn-primary:hover {
+            background-color: darkred;
+            border-color: darkred;
+        }
+
+        .btn-danger {
+            background-color: red;
+            border-color: red;
+        }
+
+        .btn-danger:hover {
+            background-color: darkred;
+            border-color: darkred;
+        }
+
+        .btn-back {
+            background-color: black;
+            color: white;
+            border: none;
+        }
+
+        .btn-back:hover {
+            background-color: darkgray;
+            color: black;
+        }
+
         /* Navbar Styling */
         header .navbar {
             background: linear-gradient(90deg, #000, #333);
@@ -66,11 +117,14 @@
         }
     </style>
 
-    <!-- Bootstrap CSS Link -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
@@ -120,53 +174,54 @@
             </div>
         </nav>
     </header>
+
     <div class="container mt-5">
-        <h3 class="mb-4" style="color: #ff4d4d; font-weight: bold;">Register New User</h3>
-        <form action="{{ route('admin.registerUser') }}" method="POST" class="p-4 border rounded-3 bg-light shadow-sm">
-            @csrf
-            <div class="mb-3">
-                <label for="name" class="form-label" style="color: #330000; font-weight: bold;">Name</label>
-                <input type="text" name="name" class="form-control" required>
+        <h1 class="text-center mb-4">Client Messages</h1>
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($messages as $message)
+                            <tr>
+                                <td>{{ $message->id }}</td>
+                                <td>{{ $message->username }}</td>
+                                <td>{{ $message->email }}</td>
+                                <td>{{ $message->subject }}</td>
+                                <td>{{ $message->created_at }}</td>
+                                <td>
+                                    <form action="{{ route('admin.deleteMessage', $message->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-end mt-3">
+                    <a href="{{ route('admin.dashboard') }}" class="btn btn-back">Back to Dashboard</a>
+                </div>
             </div>
-
-            <div class="mb-3">
-                <label for="email" class="form-label" style="color: #330000; font-weight: bold;">Email</label>
-                <input type="email" name="email" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="password" class="form-label" style="color: #330000; font-weight: bold;">Password</label>
-                <input type="password" name="password" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="password_confirmation" class="form-label" style="color: #330000; font-weight: bold;">Confirm Password</label>
-                <input type="password" name="password_confirmation" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="role" class="form-label" style="color: #330000; font-weight: bold;">Role</label>
-                <select name="role" class="form-select" required>
-                    <option value="admin">Admin</option>
-                    <option value="employee">Employee</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn btn-danger w-100" style="background-color: #ff4d4d; border-color: #ff4d4d;">Register User</button>
-        </form>
-        <!-- Back to Admin Dashboard -->
-        <div class="mt-4">
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-dark" style="background-color: #292929; border-color: #292929;">Back to Admin Dashboard</a>
         </div>
     </div>
-
     <footer>
         <p>© 2024 Admin Dashboard. All rights reserved.</p>
     </footer>
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

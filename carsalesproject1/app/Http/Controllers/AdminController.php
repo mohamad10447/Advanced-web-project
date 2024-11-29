@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Contact;
 
 class AdminController extends Controller
 {
@@ -69,5 +70,17 @@ class AdminController extends Controller
 
             // Total cars in inventory
         ;
+    }
+    public function viewMessages()
+    {
+        $messages = Contact::all(); // Fetch all messages
+        return view('admin.messages', compact('messages'));
+    }
+    public function deleteMessage($id)
+    {
+        $message = Contact::findOrFail($id);
+        $message->delete();
+
+        return redirect()->route('admin.messages')->with('success', 'Message deleted successfully.');
     }
 }
