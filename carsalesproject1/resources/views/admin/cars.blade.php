@@ -293,7 +293,9 @@
                 <tbody>
                     @foreach ($cars as $car)
                     <tr>
-                        <td><img src="{{ asset($car->image_path) }}" alt="{{ $car->brand }} {{ $car->model }}" class="img-thumbnail" style="width: 100px;"></td>
+                        <td><img src="{{ asset($car->image) }}" alt="{{ $car->brand }} {{ $car->model }}" class="img-thumbnail" style="width:300px;">
+
+                        </td>
                         <td>{{ $car->brand }}</td>
                         <td>{{ $car->model }}</td>
                         <td>{{ $car->type }}</td>
@@ -322,7 +324,7 @@
                                 <div class="modal-body">
                                     <div class="row mb-3">
                                         <div class="col-md-4">
-                                            <img src="{{ asset($car->image_path) }}" alt="{{ $car->brand }} {{ $car->model }}" class="img-thumbnail w-100">
+                                            <img src="{{ asset($car->image) }}" alt="{{ $car->brand }} {{ $car->model }}" class="img-thumbnail" style="width:300px;">
                                         </div>
                                         <div class="col-md-8">
                                             <p><strong>Brand:</strong> {{ $car->brand }}</p>
@@ -333,7 +335,7 @@
                                             <p><strong>Mileage:</strong> {{ number_format($car->mileage) }} km</p>
                                             <p><strong>Fuel Type:</strong> {{ ucfirst($car->fuel_type) }}</p>
                                             <p><strong>Transmission:</strong> {{ ucfirst($car->transmission) }}</p>
-                                            <p><strong>Description:</strong> {{ $car->description }}</p>
+
                                         </div>
                                     </div>
                                     <button type="button" class="btn btn-back" data-bs-dismiss="modal">Close</button>

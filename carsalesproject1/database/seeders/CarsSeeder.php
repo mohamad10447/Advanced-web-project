@@ -12,6 +12,13 @@ class CarsSeeder extends Seeder
     {
         $faker = Faker::create();
 
+        // List of images to randomly assign to cars
+        $imageFiles = [
+            'images/car1.jpg',
+            'images/car2.jpg',
+            'images/car3.jpg'
+        ];
+
         foreach (range(1, 50) as $index) { // Example: 50 cars
             Car::create([
                 'brand' => $faker->company,
@@ -27,8 +34,9 @@ class CarsSeeder extends Seeder
                 'purchased_by_user_id' => null,
                 'comment' => $faker->optional()->sentence,
                 'comment_date_time' => $faker->optional()->dateTime,
-                'image' => $faker->imageUrl(300, 200, 'cars', true), // 300x200 size, category 'cars'
+                'image' => $faker->randomElement($imageFiles), // Randomly select one of the three images
             ]);
         }
     }
 }
+
