@@ -9,9 +9,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>Car Shop</title>
 </head>
-
+@extends('welcomee')
 <style>
     .main-container {
+        
         max-width: 900px;
         width: 100%;
         min-height: 200px;
@@ -20,6 +21,7 @@
         background-color: whitesmoke;
         justify-content: space-evenly;
         margin: 0 auto;
+        margin-top:12%;
         border-radius: 10px;
         position: relative;
     }
@@ -84,9 +86,8 @@
 
     <script>
         $(document).ready(function () {
-            let selected = []; // Initialize an array to store selected car IDs
+            let selected = []; 
 
-            // Add car to cart when 'Buy Now' button is clicked
             $(document).on("click", ".buynw", function (e) {
                 e.preventDefault();
 

@@ -13,7 +13,7 @@
 <style>
     body {
         min-height: 100vh;
-        background-image: url(../images/pozadina1.jpg); /* Replace with your desired background */
+        background-image: url(../images/pozadina1.jpg);
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
@@ -22,7 +22,7 @@
     .checkout-container {
         max-width: 900px;
         margin: 0 auto;
-        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+        background-color: rgba(255, 255, 255, 0.9);
         padding: 2rem;
         border-radius: 10px;
         margin-top: 2rem;
@@ -122,7 +122,6 @@
                             <strong>Fuel Type:</strong> {{ $car->fuel_type }}<br>
                             <strong>Transmission:</strong> {{ $car->transmission }}<br>
                         </p>
-                        <!-- Add checkbox for selection -->
                         <input type="checkbox" class="selected-car-checkbox" data-id="{{ $car->id }}" > Select this car
                         <button class="btn btn-danger delete-car" data-id="{{ $car->id }}">Delete</button>
                     </div>
@@ -133,15 +132,31 @@
 
         <h3 class="text-center mt-4">Total Price: $<span class="total-price">{{ number_format($totalPrice, 2) }}</span></h3>
 
-        <!-- Proceed to Payment -->
         <div class="text-center mt-4">
-            <input type="text" class="feed" placeholder="Enter a feedback">
             <a href="#" class="btn btn-success pr">Proceed to Payment</a>
         </div>
 
         @else
         <p class="text-center">No cars selected. Please select cars to proceed to checkout.</p>
         @endif
+    </div>
+
+    <!-- Purchase Successful Modal -->
+    <div id="purchase-success-modal" class="modal fade" tabindex="-1" aria-labelledby="purchaseSuccessLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="purchaseSuccessLabel">Thank you for your purchase!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Your order has been successfully placed. We will process it shortly.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ route('Home') }}" class="btn btn-success">Go to Home</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS and Popper.js -->
@@ -153,82 +168,79 @@
         $(document).ready(function() {
             // Handle delete button click
             $(document).on("click", ".delete-car", function(e) {
-                e.preventDefault();  // Prevent default action (form submission, etc.)
+                e.preventDefault();
 
-                var carId = $(this).data("id"); // Get the car ID from data-id attribute
+                var carId = $(this).data("id");
 
                 // Send an AJAX request to remove the car from the session
                 $.ajax({
-    url: '{{ route("removeCarFromSession") }}',
-    type: 'POST',
-    data: {
-        _token: '{{ csrf_token() }}',
-        carId: carId
-    },
-    success: function(response) {
-        if (response.success) {
-            $("#car-" + carId).remove();
-            $(".total-price").text(response.totalPrice);
-            $(".cardnumber").text(response.cartCount);
-        } else {
-            alert('Error: ' + response.message);
-        }
-    },
-    error: function(xhr, status, error) {
-        console.error("AJAX Error:", error);
-        console.error("Response:", xhr.responseText);
-        alert('Error occurred while deleting the car: ' + xhr.responseText);
-    }
-});
-            })
+                    url: '{{ route("removeCarFromSession") }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        carId: carId
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $("#car-" + carId).remove();
+                            $(".total-price").text(response.totalPrice);
+                            $(".cardnumber").text(response.cartCount);
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error:", error);
+                        console.error("Response:", xhr.responseText);
+                        alert('Error occurred while deleting the car: ' + xhr.responseText);
+                    }
+                });
+            });
 
             // Handle the proceed to payment button click
             $(document).on("click", ".pr", function(e) {
-    e.preventDefault();
+                e.preventDefault();
 
-    // Get the current time in ISO 8601 format (similar to the format you mentioned)
-    var currentTime = new Date().toISOString(); // This gives the current time in the correct format
+                var currentTime = new Date().toISOString();
+                var userId = @json(auth()->id());
+                var selectedCarIds = [];
 
-    var userId = @json(auth()->id()); // Get the logged-in user ID
-    var selectedCarIds = [];
+                $(".selected-car-checkbox:checked").each(function() {
+                    var carId = $(this).data('id');
+                    selectedCarIds.push(carId);
+                });
 
-    // Collect IDs of the cars selected for purchase
-    $(".selected-car-checkbox:checked").each(function() {
-        var carId = $(this).data('id'); // Get the car ID from the data-id attribute
-        selectedCarIds.push(carId); // Add car ID to the array
-    });
+                if (selectedCarIds.length === 0) {
+                    alert('Please select at least one car.');
+                    return;
+                }
 
-    if (selectedCarIds.length === 0) {
-        alert('Please select at least one car.');
-        return;
-    }
-
-    // Send an AJAX request to proceed with payment
-    $.ajax({
-        url: '{{ route("purchase") }}', // This resolves to '/purchase'
-        type: 'POST',
-        data: {
-            time: currentTime, // Send the current time dynamically
-            _token: '{{ csrf_token() }}',  // CSRF token
-            userId: userId,  // Send the user ID
-            Carids: selectedCarIds,  // Send the array of car IDs
-            feedback: $('.feed').val(),  // Optionally, send feedback entered by the user
-        },
-        success: function(response) {
-            if (response.success) {
-                window.location.href = response.redirectUrl;
-            } else {
-                alert('Error: ' + response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log("AJAX Error:", error);
-            console.log("XHR response:", xhr.responseText);
-            alert('Error occurred while processing payment.');
-        }
-    });
-});
-
+                // AJAX request to proceed with payment
+                $.ajax({
+                    url: '{{ route("purchase") }}',
+                    type: 'POST',
+                    data: {
+                        time: currentTime,
+                        _token: '{{ csrf_token() }}',
+                        userId: userId,
+                        Carids: selectedCarIds,
+                        feedback: $('.feed').val(),
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Show the "Purchase Successful" modal on success
+                            $('#purchase-success-modal').modal('show');
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("AJAX Error:", error);
+                        console.log("XHR response:", xhr.responseText);
+                        alert('Error occurred while processing payment.');
+                    }
+                });
+            });
         });
     </script>
 
